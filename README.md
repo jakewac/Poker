@@ -1,2 +1,2 @@
-# WorkoutAssistant
-Workout assistant application
+# Blackjack
+A Blackjack game programmed using React
