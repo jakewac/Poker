@@ -1,0 +1,5 @@
+.board {
+    display: inline-flex;
+    margin: 10px;
+    gap: 5px;
+}
