@@ -3,6 +3,7 @@ import React from "react";
 import "./Board.css";
 
 import Deck from "./Deck";
+import Hand from "./Hand";
 
 class Board extends React.Component {
     constructor(props) {
@@ -10,31 +11,47 @@ class Board extends React.Component {
 
         this.deck = new Deck();
 
-        let initial = [];
-        for (let i = 0; i < this.deck.cards.length; i++) {
-            initial.push(this.deck.getCard(i));
+        let deck_hand = new Hand();
+
+        for (let c of this.deck.cards) {
+            deck_hand.addCard(c);
         }
 
+        let dealt_hand = new Hand();
+
         this.state = {
-            board: initial,
+            deck_hand: deck_hand,
+            dealt_hand: dealt_hand,
         };
     }
 
-    shuffleDeck() {
-        this.deck.shuffle();
-        let new_board = [];
+    dealCard() {
+        let card = this.deck.deal();
+        this.state.dealt_hand.addCard(card);
+        this.state.deck_hand.removeCard(card);
+        this.setState({});
+    }
 
-        for (let i = 0; i < this.deck.cards.length; i++) {
-            new_board.push(this.deck.getCard(i));
+    shuffleDeck() {
+        this.deck.reset();
+        this.state.deck_hand.clearHand();
+        this.state.dealt_hand.clearHand();
+
+        for (let c of this.deck.cards) {
+            this.state.deck_hand.addCard(c);
         }
 
-        this.setState({ board: new_board });
+        this.setState({});
     }
 
     render() {
         return (
             <div>
-                <div className="board">{this.state.board}</div>
+                <div className="hand">{this.state.dealt_hand.getCards()}</div>
+                <br></br>
+                <button onClick={() => this.dealCard()}>Deal</button>
+                <div className="hand">{this.state.deck_hand.getCards()}</div>
+                <br></br>
                 <button onClick={() => this.shuffleDeck()}>Shuffle</button>
             </div>
         );
