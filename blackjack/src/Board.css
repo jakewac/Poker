@@ -1,5 +1,15 @@
 .hand {
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: repeat(5, max-content);
+    gap: 10px;
     margin: 10px;
-    gap: 5px;
+    justify-content: center;
 }
+
+/* .hand {
+    display: grid;
+    grid-template-columns: repeat(5, 30px);
+    gap: 10px;
+    margin: 10px;
+    justify-content: center;
+} */

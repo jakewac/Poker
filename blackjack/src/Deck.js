@@ -1,6 +1,6 @@
 import Card from "./Card";
-import Rank from "./Rank.ts";
-import Suit from "./Suit.ts";
+import Rank from "./Rank";
+import Suit from "./Suit";
 
 class Deck {
     constructor() {
@@ -8,21 +8,21 @@ class Deck {
         this.dealt = [];
 
         let id = 0;
-        for (let s in Suit) {
-            for (let r in Rank) {
-                this.cards.push(<Card key={id} rank={r} suit={s}></Card>);
+        for (const s in Suit) {
+            for (const r in Rank) {
+                this.cards.push(new Card(id, Rank[r], Suit[s], true));
                 id++;
             }
         }
     }
 
     getCard(suit, rank) {
-        for (let c in this.cards) {
-            if (c.props.suit === suit && c.props.rank === rank) {
-                this.cards.pop(this.cards.indexOf(c));
-                this.deal.push(c);
+        this.cards.forEach((card) => {
+            if (card.suit === suit && card.rank === rank) {
+                this.cards.pop(this.cards.indexOf(card));
+                this.deal.push(card);
             }
-        }
+        });
     }
 
     deal() {
@@ -31,7 +31,7 @@ class Deck {
             this.dealt.push(card);
             return card;
         }
-        return undefined;
+        return null;
     }
 
     shuffle() {

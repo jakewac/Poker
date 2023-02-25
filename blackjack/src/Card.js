@@ -1,25 +1,42 @@
-import React from "react";
+import CardRender from "./CardRender";
+import Rank from "./Rank";
+import Suit from "./Suit";
 
-import Rank from "./Rank.ts";
-import Suit from "./Suit.ts";
-
-class Card extends React.Component {
-    render() {
-        let rank = this.props.rank;
-        let suit = this.props.suit;
-
-        let card_name = "back";
-
-        if (rank in Rank && suit in Suit) {
-            card_name = Rank[rank] + "_of_" + Suit[suit];
+class Card {
+    constructor(id, rank, suit, shown = true) {
+        if (!(rank instanceof Rank)) {
+            throw new Error("Invalid card rank");
+        }
+        if (!(suit instanceof Suit)) {
+            throw new Error("Invalid card suit");
         }
 
-        let card_image_path = "./deck/" + card_name + ".svg";
+        this.id = id;
+        this.rank = rank;
+        this.suit = suit;
+        this.shown = shown;
+    }
 
+    setSuit(suit) {
+        this.suit = suit;
+    }
+
+    setRank(rank) {
+        this.rank = rank;
+    }
+
+    setShown(shown) {
+        this.shown = shown;
+    }
+
+    getRendered() {
         return (
-            <div>
-                <img src={card_image_path} alt={card_name}></img>
-            </div>
+            <CardRender
+                key={this.id}
+                rank={this.rank}
+                suit={this.suit}
+                shown={true}
+            ></CardRender>
         );
     }
 }

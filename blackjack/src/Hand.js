@@ -1,6 +1,6 @@
 class Hand {
-    constructor() {
-        this.cards = [];
+    constructor(cards = []) {
+        this.cards = cards;
     }
 
     addCard(card) {
@@ -14,8 +14,12 @@ class Hand {
         }
     }
 
-    getCards() {
-        return this.cards;
+    getRendered() {
+        let cardRenders = [];
+        this.cards.forEach((card) => {
+            cardRenders.push(card.getRendered());
+        });
+        return cardRenders;
     }
 
     clearHand() {
