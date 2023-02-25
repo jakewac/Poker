@@ -24,7 +24,7 @@ class Rank {
 
     equals(other) {
         if (!(other instanceof Rank)) return false;
-        return this.value == other.value;
+        return this.value === other.value;
     }
 
     toString() {

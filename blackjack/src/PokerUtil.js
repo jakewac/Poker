@@ -26,7 +26,7 @@ class PokerUtil {
         let bestPairRank = null;
 
         this.uniqueRanks.every((rank) => {
-            if (this.getEqualRankCardCount(rank) == 2) {
+            if (this.getEqualRankCardCount(rank) === 2) {
                 bestPairRank = rank;
                 return false;
             }
@@ -42,7 +42,7 @@ class PokerUtil {
         let secondBestPairRank = null;
 
         this.uniqueRanks.every((rank) => {
-            if (this.getEqualRankCardCount(rank) == 2) {
+            if (this.getEqualRankCardCount(rank) === 2) {
                 if (bestPairRank == null) {
                     bestPairRank = rank;
                 } else {
@@ -63,7 +63,7 @@ class PokerUtil {
         let bestTripleRank = null;
 
         this.uniqueRanks.every((rank) => {
-            if (this.getEqualRankCardCount(rank) == 3) {
+            if (this.getEqualRankCardCount(rank) === 3) {
                 bestTripleRank = rank;
                 return false;
             }
@@ -78,7 +78,7 @@ class PokerUtil {
         let bestStraight = null;
 
         let checkRanks = this.uniqueRanks;
-        if (checkRanks[0] == Rank.ACE) {
+        if (checkRanks[0] === Rank.ACE) {
             checkRanks.push(new Rank("baby_ace", 1));
         }
 
@@ -86,12 +86,12 @@ class PokerUtil {
             let count = 0;
 
             for (let i = r; i < checkRanks.length; i++) {
-                if (checkRanks[i - 1].value - checkRanks[i].value == 1) {
+                if (checkRanks[i - 1].value - checkRanks[i].value === 1) {
                     count++;
                 } else break;
             }
 
-            if (count == 4) {
+            if (count === 4) {
                 bestStraight = checkRanks[r - 1];
             }
         }
@@ -108,7 +108,7 @@ class PokerUtil {
                 let count = 0;
 
                 this.cards.forEach((c) => {
-                    if (c.suit == Suit[suit]) count++;
+                    if (c.suit === Suit[suit]) count++;
                 });
 
                 if (count > 4) {
@@ -135,7 +135,7 @@ class PokerUtil {
                 } else {
                     bestPairRank = rank;
                 }
-            } else if (count == 2) {
+            } else if (count === 2) {
                 bestPairRank = rank;
             }
 
@@ -151,7 +151,7 @@ class PokerUtil {
         let bestQuadRank = null;
 
         this.uniqueRanks.every((rank) => {
-            if (this.getEqualRankCardCount(rank) == 4) {
+            if (this.getEqualRankCardCount(rank) === 4) {
                 bestQuadRank = rank;
                 return false;
             }

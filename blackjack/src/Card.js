@@ -1,4 +1,3 @@
-import CardRender from "./CardRender";
 import Rank from "./Rank";
 import Suit from "./Suit";
 
@@ -30,13 +29,16 @@ class Card {
     }
 
     getRendered() {
+        const cardName = this.shown
+            ? this.rank.toString() + "_of_" + this.suit.toString()
+            : "back";
+
+        const cardImagePath = "./deck/" + cardName + ".svg";
+
         return (
-            <CardRender
-                key={this.id}
-                rank={this.rank}
-                suit={this.suit}
-                shown={true}
-            ></CardRender>
+            <div>
+                <img src={cardImagePath} alt={cardName}></img>
+            </div>
         );
     }
 }
