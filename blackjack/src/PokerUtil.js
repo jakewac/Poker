@@ -1,6 +1,5 @@
 import Card from "./Card";
 import Rank from "./Rank";
-import Suit from "./Suit";
 
 class PokerUtil {
     constructor(cards) {
@@ -17,64 +16,45 @@ class PokerUtil {
         });
 
         this.cards = cards.sort((a, b) => b.rank.value - a.rank.value);
-        this.uniqueRanks = Array.from(new Set(cards.map((c) => c.rank))).sort(
-            (a, b) => b.value - a.value
-        );
+
+        this.uniqueRanks = Array.from(
+            new Set(cards.map((c) => c.getRank()))
+        ).sort((a, b) => b.value - a.value);
+
+        this.uniqueSuits = Array.from(new Set(cards.map((c) => c.getSuit())));
     }
 
-    getPair() {
-        let bestPairRank = null;
+    checkPair() {
+        for (const rank of this.uniqueRanks) {
+            if (this.countEqualRankCards(rank) === 2) return rank;
+        }
 
-        this.uniqueRanks.every((rank) => {
-            if (this.getEqualRankCardCount(rank) === 2) {
-                bestPairRank = rank;
-                return false;
-            }
-
-            return true;
-        });
-
-        return bestPairRank;
+        return null;
     }
 
-    getTwoPair() {
+    checkTwoPair() {
         let bestPairRank = null;
-        let secondBestPairRank = null;
 
-        this.uniqueRanks.every((rank) => {
-            if (this.getEqualRankCardCount(rank) === 2) {
+        for (const rank of this.uniqueRanks) {
+            if (this.countEqualRankCards(rank) === 2) {
                 if (bestPairRank == null) {
                     bestPairRank = rank;
-                } else {
-                    secondBestPairRank = rank;
-                    return false;
-                }
+                } else return [bestPairRank, rank];
             }
+        }
 
-            return true;
-        });
-
-        return bestPairRank != null && secondBestPairRank != null
-            ? [bestPairRank, secondBestPairRank]
-            : null;
+        return null;
     }
 
-    getThreeOfAKind() {
-        let bestTripleRank = null;
+    checkThreeOfAKind() {
+        for (const rank of this.uniqueRanks) {
+            if (this.countEqualRankCards(rank) === 3) return rank;
+        }
 
-        this.uniqueRanks.every((rank) => {
-            if (this.getEqualRankCardCount(rank) === 3) {
-                bestTripleRank = rank;
-                return false;
-            }
-
-            return true;
-        });
-
-        return bestTripleRank;
+        return null;
     }
 
-    getStraight() {
+    checkStraight() {
         let bestStraight = null;
 
         let checkRanks = this.uniqueRanks;
@@ -91,43 +71,32 @@ class PokerUtil {
                 } else break;
             }
 
-            if (count === 4) {
-                bestStraight = checkRanks[r - 1];
-            }
+            if (count === 4) bestStraight = checkRanks[r - 1];
         }
 
         return bestStraight;
     }
 
-    getFlush() {
-        let flushSuit = null;
+    checkFlush() {
+        for (const suit of this.uniqueSuits) {
+            let count = 0;
 
-        Object.keys(Suit)
-            .reverse()
-            .every((suit) => {
-                let count = 0;
-
-                this.cards.forEach((c) => {
-                    if (c.suit === Suit[suit]) count++;
-                });
-
-                if (count > 4) {
-                    flushSuit = suit;
-                    return false;
-                }
-
-                return true;
+            this.cards.forEach((c) => {
+                if (c.getSuit() === suit) count++;
             });
 
-        return flushSuit;
+            if (count > 4) return suit;
+        }
+
+        return null;
     }
 
-    getFullHouse() {
+    checkFullHouse() {
         let bestTripleRank = null;
         let bestPairRank = null;
 
-        this.uniqueRanks.every((rank) => {
-            let count = this.getEqualRankCardCount(rank);
+        for (const rank of this.uniqueRanks) {
+            let count = this.countEqualRankCards(rank);
 
             if (count > 2) {
                 if (bestTripleRank == null) {
@@ -139,36 +108,29 @@ class PokerUtil {
                 bestPairRank = rank;
             }
 
-            return bestTripleRank == null || bestPairRank == null;
-        });
-
-        return bestTripleRank != null && bestPairRank != null
-            ? [bestTripleRank, bestPairRank]
-            : null;
-    }
-
-    getFourOfAKind() {
-        let bestQuadRank = null;
-
-        this.uniqueRanks.every((rank) => {
-            if (this.getEqualRankCardCount(rank) === 4) {
-                bestQuadRank = rank;
-                return false;
+            if (bestTripleRank != null && bestPairRank != null) {
+                return [bestTripleRank, bestPairRank];
             }
+        }
 
-            return true;
-        });
-
-        return bestQuadRank;
+        return null;
     }
 
-    getStraightFlush() {}
+    checkFourOfAKind() {
+        for (const rank of this.uniqueRanks) {
+            if (this.countEqualRankCards(rank) === 4) return rank;
+        }
 
-    getEqualRankCardCount(rank) {
+        return null;
+    }
+
+    checkStraightFlush() {}
+
+    countEqualRankCards(rank) {
         let count = 0;
 
         this.cards.forEach((c) => {
-            if (c.rank.equals(rank)) count++;
+            if (c.getRank().equals(rank)) count++;
         });
 
         return count;

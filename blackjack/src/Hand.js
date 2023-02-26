@@ -14,18 +14,24 @@ class Hand {
         }
     }
 
-    getRendered() {
-        let cardRenders = [];
-        this.cards.forEach((card) => {
-            cardRenders.push(card.getRendered());
-        });
-        return cardRenders;
+    getCards() {
+        return this.cards;
     }
 
     clearHand() {
         while (this.cards.length > 0) {
             this.cards.pop();
         }
+    }
+
+    toString() {
+        let str = "Hand: ";
+
+        for (const card of this.cards) {
+            str += card;
+        }
+
+        return str;
     }
 }
 

@@ -6,10 +6,16 @@
     justify-content: center;
 }
 
-/* .hand {
+.handCondensed {
     display: grid;
-    grid-template-columns: repeat(5, 30px);
+    grid-template-columns: repeat(5, 35px);
     gap: 10px;
     margin: 10px;
     justify-content: center;
-} */
+}
+
+.handList {
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+}

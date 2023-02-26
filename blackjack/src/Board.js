@@ -2,87 +2,160 @@ import React from "react";
 
 import "./Board.css";
 
-import Deck from "./Deck";
-import Hand from "./Hand";
-
 import PokerUtil from "./PokerUtil";
 
 class Board extends React.Component {
     constructor(props) {
         super(props);
 
-        this.deck = new Deck();
-
-        let deckHand = new Hand();
-
-        for (let c of this.deck.cards) {
-            deckHand.addCard(c);
-        }
-
-        let dealtHand = new Hand();
+        this.game = this.props.game;
 
         this.state = {
-            deckHand: deckHand,
-            dealtHand: dealtHand,
+            playerHands: this.game.getHands(),
+            board: this.game.getBoard(),
+            deck: this.game.getDeck(),
         };
     }
 
-    shuffleDeck() {
-        this.deck.reset();
-        this.state.deckHand.clearHand();
-        this.state.dealtHand.clearHand();
+    newHand() {
+        this.game.reset();
+        this.game.dealCards();
 
-        for (let c of this.deck.cards) {
-            this.state.deckHand.addCard(c);
-        }
-
-        this.setState({});
+        this.setState({
+            playerHands: this.game.getHands(),
+            board: this.game.getBoard(),
+            deck: this.game.getDeck(),
+        });
     }
 
     dealCard() {
-        let card = this.deck.deal();
-        if (card != null) {
-            this.state.dealtHand.addCard(card);
-            this.state.deckHand.removeCard(card);
-            this.setState({});
-        }
+        this.game.dealBoardCard();
+
+        this.setState({
+            playerHands: this.game.getHands(),
+            board: this.game.getBoard(),
+            deck: this.game.getDeck(),
+        });
     }
 
     checkDealtHand() {
-        const pokerUtil = new PokerUtil(this.state.dealtHand.cards);
+        for (const hand of this.game.getHands()) {
+            if (!hand.getCards().length) continue;
 
-        console.log("Checking Hand...");
+            const combinedHand = hand
+                .getCards()
+                .concat(this.game.getBoard().cards);
 
-        console.log("Pair -------------------------");
-        console.log(pokerUtil.getPair());
-        console.log("Two Pair ---------------------");
-        console.log(pokerUtil.getTwoPair());
-        console.log("Three Of A Kind --------------");
-        console.log(pokerUtil.getThreeOfAKind());
-        console.log("Straight ---------------------");
-        console.log(pokerUtil.getStraight());
-        console.log("Flush ------------------------");
-        console.log(pokerUtil.getFlush());
-        console.log("Full House -------------------");
-        console.log(pokerUtil.getFullHouse());
-        console.log("Four Of A Kind ---------------");
-        console.log(pokerUtil.getFourOfAKind());
+            const pokerUtil = new PokerUtil(combinedHand);
+
+            console.log("Checking Hand.....................");
+            console.log(combinedHand.toString());
+
+            const pair = pokerUtil.checkPair();
+            if (pair != null) {
+                console.log("Pair");
+                console.log(pair);
+            }
+            const twoPair = pokerUtil.checkTwoPair();
+            if (twoPair != null) {
+                console.log("Two Pair");
+                console.log(twoPair);
+            }
+            const threeOfAKind = pokerUtil.checkThreeOfAKind();
+            if (threeOfAKind != null) {
+                console.log("Three Of A Kind");
+                console.log(threeOfAKind);
+            }
+            const straight = pokerUtil.checkStraight();
+            if (straight != null) {
+                console.log("Straight");
+                console.log(straight);
+            }
+            const flush = pokerUtil.checkFlush();
+            if (flush != null) {
+                console.log("Flush");
+                console.log(flush);
+            }
+            const fullHouse = pokerUtil.checkFullHouse();
+            if (fullHouse != null) {
+                console.log("Full House");
+                console.log(fullHouse);
+            }
+            const fourOfAKind = pokerUtil.checkFourOfAKind();
+            if (fourOfAKind != null) {
+                console.log("Four Of A Kind");
+                console.log(fourOfAKind);
+            }
+        }
+    }
+
+    getCardRender(card) {
+        const cardName = card.shown
+            ? card.getRank().toString() + "_of_" + card.getSuit().toString()
+            : "back";
+
+        const cardImagePath = "./deck/" + cardName + ".svg";
+
+        return (
+            <div key={card.getId()}>
+                <img src={cardImagePath} alt={cardName}></img>
+            </div>
+        );
+    }
+
+    getPlayerHandsRender() {
+        let playerHands = [];
+
+        let id = 0;
+        for (const hand of this.state.playerHands) {
+            let cardRenders = [];
+            for (const card of hand.getCards()) {
+                cardRenders.push(this.getCardRender(card));
+            }
+
+            playerHands.push(
+                <div key={id} className="handCondensed">
+                    {cardRenders}
+                </div>
+            );
+
+            id += 1;
+        }
+
+        return playerHands;
+    }
+
+    getBoardRender() {
+        let cardRenders = [];
+        for (const card of this.state.board.getCards()) {
+            cardRenders.push(this.getCardRender(card));
+        }
+        return cardRenders;
+    }
+
+    getDeckRender() {
+        let cardRenders = [];
+        for (const card of this.state.deck.getCards()) {
+            cardRenders.push(this.getCardRender(card));
+        }
+        return cardRenders;
     }
 
     render() {
         return (
             <div>
                 <div>
-                    <button onClick={() => this.shuffleDeck()}>Shuffle</button>
+                    <button onClick={() => this.newHand()}>New Hand</button>
                     <br></br>
                     <button onClick={() => this.dealCard()}>Deal</button>
                     <br></br>
                     <button onClick={() => this.checkDealtHand()}>Check</button>
                 </div>
-                <div className="hand">{this.state.dealtHand.getRendered()}</div>
+                <div className="handList">{this.getPlayerHandsRender()}</div>
                 <br></br>
-
-                <div className="hand">{this.state.deckHand.getRendered()}</div>
+                <div className="hand">{this.getBoardRender()}</div>
+                <br></br>
+                <div className="hand">{this.getDeckRender()}</div>
                 <br></br>
             </div>
         );

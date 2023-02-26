@@ -16,6 +16,22 @@ class Card {
         this.shown = shown;
     }
 
+    getId() {
+        return this.id;
+    }
+
+    getRank() {
+        return this.rank;
+    }
+
+    getSuit() {
+        return this.suit;
+    }
+
+    isShown() {
+        return this.shown;
+    }
+
     setSuit(suit) {
         this.suit = suit;
     }
@@ -28,18 +44,8 @@ class Card {
         this.shown = shown;
     }
 
-    getRendered() {
-        const cardName = this.shown
-            ? this.rank.toString() + "_of_" + this.suit.toString()
-            : "back";
-
-        const cardImagePath = "./deck/" + cardName + ".svg";
-
-        return (
-            <div>
-                <img src={cardImagePath} alt={cardName}></img>
-            </div>
-        );
+    toString() {
+        return "[" + this.rank.name + "-" + this.suit.name + "]";
     }
 }
 

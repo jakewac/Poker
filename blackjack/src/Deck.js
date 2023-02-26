@@ -16,13 +16,8 @@ class Deck {
         }
     }
 
-    getCard(suit, rank) {
-        this.cards.forEach((card) => {
-            if (card.suit === suit && card.rank === rank) {
-                this.cards.pop(this.cards.indexOf(card));
-                this.deal.push(card);
-            }
-        });
+    getCards() {
+        return this.cards;
     }
 
     deal() {
@@ -43,6 +38,22 @@ class Deck {
             this.cards.push(this.dealt.pop());
         }
         this.shuffle();
+    }
+
+    toString() {
+        let str = "Deck: ";
+
+        for (const card of this.cards) {
+            str += card;
+        }
+
+        str += "\nDealt: ";
+
+        for (const card of this.dealt) {
+            str += card;
+        }
+
+        return str;
     }
 }
 
