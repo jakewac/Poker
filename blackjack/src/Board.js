@@ -49,43 +49,10 @@ class Board extends React.Component {
             const pokerUtil = new PokerUtil(combinedHand);
 
             console.log("Checking Hand.....................");
-            console.log(combinedHand.toString());
+            console.log(hand.toString());
+            console.log(this.game.getBoard().toString());
 
-            const pair = pokerUtil.checkPair();
-            if (pair != null) {
-                console.log("Pair");
-                console.log(pair);
-            }
-            const twoPair = pokerUtil.checkTwoPair();
-            if (twoPair != null) {
-                console.log("Two Pair");
-                console.log(twoPair);
-            }
-            const threeOfAKind = pokerUtil.checkThreeOfAKind();
-            if (threeOfAKind != null) {
-                console.log("Three Of A Kind");
-                console.log(threeOfAKind);
-            }
-            const straight = pokerUtil.checkStraight();
-            if (straight != null) {
-                console.log("Straight");
-                console.log(straight);
-            }
-            const flush = pokerUtil.checkFlush();
-            if (flush != null) {
-                console.log("Flush");
-                console.log(flush);
-            }
-            const fullHouse = pokerUtil.checkFullHouse();
-            if (fullHouse != null) {
-                console.log("Full House");
-                console.log(fullHouse);
-            }
-            const fourOfAKind = pokerUtil.checkFourOfAKind();
-            if (fourOfAKind != null) {
-                console.log("Four Of A Kind");
-                console.log(fourOfAKind);
-            }
+            console.log(pokerUtil.getBestHand());
         }
     }
 
@@ -114,8 +81,9 @@ class Board extends React.Component {
             }
 
             playerHands.push(
-                <div key={id} className="handCondensed">
-                    {cardRenders}
+                <div key={id}>
+                    <div className="handCondensed">{cardRenders}</div>
+                    <div className="handStatusLabel">{hand.toString()}</div>
                 </div>
             );
 

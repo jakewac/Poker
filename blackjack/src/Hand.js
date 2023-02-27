@@ -25,13 +25,7 @@ class Hand {
     }
 
     toString() {
-        let str = "Hand: ";
-
-        for (const card of this.cards) {
-            str += card;
-        }
-
-        return str;
+        return this.cards.join(" | ");
     }
 }
 

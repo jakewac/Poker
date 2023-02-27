@@ -45,7 +45,7 @@ class Card {
     }
 
     toString() {
-        return "[" + this.rank.name + "-" + this.suit.name + "]";
+        return this.rank.name + " of " + this.suit.name;
     }
 }
 
