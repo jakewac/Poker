@@ -39,21 +39,11 @@ class Board extends React.Component {
     }
 
     checkDealtHand() {
-        for (const hand of this.game.getHands()) {
-            if (!hand.getCards().length) continue;
-
-            const combinedHand = hand
-                .getCards()
-                .concat(this.game.getBoard().cards);
-
-            const pokerUtil = new PokerUtil(combinedHand);
-
-            console.log("Checking Hand.....................");
-            console.log(hand.toString());
-            console.log(this.game.getBoard().toString());
-
-            console.log(pokerUtil.getBestHand());
-        }
+        const pokerUtil = new PokerUtil(
+            this.state.playerHands,
+            this.state.board
+        );
+        console.log(pokerUtil.getBestHand().toString());
     }
 
     getCardRender(card) {
