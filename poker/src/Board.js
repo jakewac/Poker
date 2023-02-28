@@ -2,6 +2,7 @@ import React from "react";
 
 import "./Board.css";
 
+import Hand from "./Hand";
 import PokerUtil from "./PokerUtil";
 
 class Board extends React.Component {
@@ -14,6 +15,7 @@ class Board extends React.Component {
             playerHands: this.game.getHands(),
             board: this.game.getBoard(),
             deck: this.game.getDeck(),
+            status: "",
         };
     }
 
@@ -25,6 +27,7 @@ class Board extends React.Component {
             playerHands: this.game.getHands(),
             board: this.game.getBoard(),
             deck: this.game.getDeck(),
+            status: "",
         });
     }
 
@@ -43,7 +46,14 @@ class Board extends React.Component {
             this.state.playerHands,
             this.state.board
         );
-        console.log(pokerUtil.getBestHand().toString());
+
+        const bestHand = new Hand(pokerUtil.getBestHand());
+
+        console.log(bestHand.toString());
+
+        this.setState({
+            status: bestHand.toString(),
+        });
     }
 
     getCardRender(card) {
@@ -110,6 +120,8 @@ class Board extends React.Component {
                     <button onClick={() => this.checkDealtHand()}>Check</button>
                 </div>
                 <div className="handList">{this.getPlayerHandsRender()}</div>
+                <br></br>
+                <div>{this.state.status}</div>
                 <br></br>
                 <div className="hand">{this.getBoardRender()}</div>
                 <br></br>

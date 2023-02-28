@@ -21,21 +21,23 @@ class PokerUtil {
 
     getRankedHand(hand) {
         const handRanks = [
-            new StraightFlush(7),
-            new FullHouse(6),
-            new Flush(5),
-            new Straight(4),
-            new ThreeOfAKind(3),
-            new TwoPair(2),
-            new Pair(1),
             new HighCard(0),
+            new Pair(1),
+            new TwoPair(2),
+            new ThreeOfAKind(3),
+            new Straight(4),
+            new Flush(5),
+            new FullHouse(6),
+            new StraightFlush(7),
         ];
 
         const combinedHand = new Hand(
             hand.getCards().concat(this.board.getCards())
         );
 
-        for (const rank of handRanks) {
+        for (const rank of handRanks.sort(
+            (a, b) => b.getHandTypeValue() - a.getHandTypeValue()
+        )) {
             if (rank.makesHand(combinedHand)) return rank;
         }
     }
