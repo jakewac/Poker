@@ -5,6 +5,7 @@ class Game {
     constructor(numPlayers) {
         this.deck = new Deck();
         this.board = new Hand();
+        this.burned = [];
 
         this.hands = [];
         for (let i = 0; i < numPlayers; i++) this.hands.push(new Hand());
@@ -34,9 +35,14 @@ class Game {
         this.board.addCard(this.deck.deal());
     }
 
+    burnCard() {
+        this.burned.push(this.deck.deal());
+    }
+
     reset() {
         this.deck.reset();
         this.board.clearHand();
+        this.burned = [];
         for (const hand of this.hands) {
             hand.clearHand();
         }
