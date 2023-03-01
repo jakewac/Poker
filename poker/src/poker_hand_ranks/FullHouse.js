@@ -33,20 +33,22 @@ class FullHouse extends PokerHandRank {
         return false;
     }
 
-    getRankedCards() {
+    getHandCards() {
         let cards = this.cards.filter((c) => this.tripleRank === c.getRank());
         cards = cards.concat(
             this.cards.filter((c) => this.pairRank === c.getRank())
         );
 
-        return super.getRankedCards(cards);
+        return cards;
     }
 
     beatsEqualTypeHand(hand) {
-        if (this.tripleRank > hand.tripleRank) return true;
-        else if (this.tripleRank < hand.tripleRank) return false;
+        if (this.tripleRank.getValue() > hand.tripleRank.getValue())
+            return true;
+        else if (this.tripleRank.getValue() < hand.tripleRank.getValue())
+            return false;
 
-        if (this.pairRank > hand.pairRank) return true;
+        if (this.pairRank.getValue() > hand.pairRank.getValue()) return true;
 
         return false;
     }

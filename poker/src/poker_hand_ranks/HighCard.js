@@ -4,18 +4,24 @@ class HighCard extends PokerHandRank {
     makesHand(hand) {
         super.makesHand(hand);
 
-        return this.cards.length;
+        if (this.cards.length) {
+            this.bestRank = this.cards[0].getRank();
+            return true;
+        } else return false;
     }
 
-    getRankedCards() {
-        return super.getRankedCards();
+    getHandCards() {
+        for (const card of this.cards) {
+            if (card.getRank() === this.bestRank) return [card];
+        }
+        return [];
     }
 
     beatsEqualTypeHand(hand) {
-        return (
-            this.getRankedCards()[0].getRank().getValue() >
-            hand.getRankedCards()[0].getRank().getValue()
-        );
+        if (this.bestRank.getValue() > hand.bestRank.getValue()) return true;
+        else if (this.bestRank.getValue() < hand.bestRank.getValue())
+            return false;
+        else return super.beatsEqualTypeHand(hand);
     }
 
     getName() {

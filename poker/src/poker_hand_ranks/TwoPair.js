@@ -27,21 +27,23 @@ class TwoPair extends PokerHandRank {
         return false;
     }
 
-    getRankedCards() {
-        let cards = this.cards.filter(
+    getHandCards() {
+        return this.cards.filter(
             (c) =>
                 c.getRank() === this.bestPair || c.getRank() === this.secondPair
         );
-        return super.getRankedCards(cards);
     }
 
     beatsEqualTypeHand(hand) {
-        if (this.bestPair > hand.bestPair) return true;
-        else if (this.bestPair < hand.bestPair) return false;
+        if (this.bestPair.getValue() > hand.bestPair.getValue()) return true;
+        else if (this.bestPair.getValue() < hand.bestPair.getValue())
+            return false;
 
-        if (this.secondPair > hand.secondPair) return true;
-
-        return false;
+        if (this.secondPair.getValue() > hand.secondPair.getValue())
+            return true;
+        else if (this.secondPair.getValue() < hand.secondPair.getValue())
+            return false;
+        else return super.beatsEqualTypeHand(hand);
     }
 
     getName() {

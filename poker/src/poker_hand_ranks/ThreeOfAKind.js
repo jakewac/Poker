@@ -20,13 +20,16 @@ class ThreeOfAKind extends PokerHandRank {
         return false;
     }
 
-    getRankedCards() {
-        let cards = this.cards.filter((c) => c.getRank() === this.bestTriple);
-        return super.getRankedCards(cards);
+    getHandCards() {
+        return this.cards.filter((c) => c.getRank() === this.bestTriple);
     }
 
     beatsEqualTypeHand(hand) {
-        return this.bestTriple > hand.bestTriple;
+        if (this.bestTriple.getValue() > hand.bestTriple.getValue())
+            return true;
+        else if (this.bestTriple.getValue() < hand.bestTriple.getValue())
+            return false;
+        else return super.beatsEqualTypeHand(hand);
     }
 
     getName() {

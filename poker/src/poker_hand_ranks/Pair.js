@@ -20,13 +20,15 @@ class Pair extends PokerHandRank {
         return false;
     }
 
-    getRankedCards() {
-        let cards = this.cards.filter((c) => c.getRank() === this.bestPair);
-        return super.getRankedCards(cards);
+    getHandCards() {
+        return this.cards.filter((c) => c.getRank() === this.bestPair);
     }
 
     beatsEqualTypeHand(hand) {
-        return this.bestPair > hand.bestPair;
+        if (this.bestPair.getValue() > hand.bestPair.getValue()) return true;
+        else if (this.bestPair.getValue() < hand.bestPair.getValue())
+            return false;
+        else return super.beatsEqualTypeHand(hand);
     }
 
     getName() {

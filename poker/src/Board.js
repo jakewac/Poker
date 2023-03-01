@@ -47,12 +47,15 @@ class Board extends React.Component {
             this.state.board
         );
 
-        const bestHand = new Hand(pokerUtil.getBestHand());
+        const bestHand = pokerUtil.getBestHand();
 
-        console.log(bestHand.toString());
+        const label =
+            bestHand.getName() +
+            " - " +
+            new Hand(bestHand.getRankedCards()).toString();
 
         this.setState({
-            status: bestHand.toString(),
+            status: label,
         });
     }
 

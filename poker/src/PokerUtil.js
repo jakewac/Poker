@@ -51,8 +51,10 @@ class PokerUtil {
             }
         }
 
-        console.log(winner.getName());
-        return winner.getRankedCards();
+        const boardRanked = this.getRankedHand(new Hand());
+        if (boardRanked.beatsHand(winner)) winner = boardRanked;
+
+        return winner;
     }
 }
 

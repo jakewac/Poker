@@ -20,16 +20,34 @@ class Flush extends PokerHandRank {
         return false;
     }
 
-    getRankedCards() {
-        let cards = this.cards.filter((c) => c.getSuit() === this.suit);
-        return super.getRankedCards(cards);
+    getHandCards() {
+        return this.cards.filter((c) => c.getSuit() === this.suit);
     }
 
     beatsEqualTypeHand(hand) {
-        return (
-            this.getRankedCards()[0].getRank().getValue() >
-            hand.getRankedCards()[0].getRank().getValue()
-        );
+        let bestCards = this.getHandCards();
+        let handBestCards = hand.getHandCards();
+
+        const limit =
+            bestCards.length <= handBestCards.length
+                ? bestCards.length
+                : handBestCards.length;
+
+        for (let i = 0; i < limit; i++) {
+            if (
+                bestCards[i].getRank().getValue() >
+                handBestCards[i].getRank().getValue()
+            )
+                return true;
+            else if (
+                bestCards[i].getRank().getValue() <
+                handBestCards[i].getRank().getValue()
+            )
+                return false;
+            else continue;
+        }
+
+        return super.beatsEqualTypeHand(hand);
     }
 
     getName() {

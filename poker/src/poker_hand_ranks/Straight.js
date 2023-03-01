@@ -31,7 +31,7 @@ class Straight extends PokerHandRank {
         return false;
     }
 
-    getRankedCards() {
+    getHandCards() {
         let cards = [];
 
         for (const rank of this.ranks) {
@@ -43,14 +43,15 @@ class Straight extends PokerHandRank {
             }
         }
 
-        return super.getRankedCards(cards);
+        return cards;
     }
 
     beatsEqualTypeHand(hand) {
-        return (
-            this.getRankedCards()[0].getRank().getValue() >
-            hand.getRankedCards()[0].getRank().getValue()
-        );
+        if (this.ranks[0].getValue() > hand.ranks[0].getRank().getValue())
+            return true;
+        else if (this.ranks[0].getValue() < hand.ranks[0].getRank().getValue())
+            return false;
+        else return super.beatsEqualTypeHand(hand);
     }
 
     getName() {

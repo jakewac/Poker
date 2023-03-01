@@ -11,6 +11,10 @@ class PokerHandRank {
         return this.handTypeValue;
     }
 
+    getCards() {
+        return this.cards;
+    }
+
     makesHand(hand) {
         this.cards = hand
             .getCards()
@@ -24,22 +28,59 @@ class PokerHandRank {
         );
     }
 
+    isDraw(hand) {
+        if (this.beatsHand(hand) || hand.beatsHand(this)) return false;
+        else return true;
+    }
+
     beatsHand(hand) {
         if (this.handTypeValue > hand.getHandTypeValue()) return true;
         else if (this.handTypeValue < hand.getHandTypeValue()) return false;
-        return this.beatsEqualTypeHand(hand);
+
+        if (this.beatsEqualTypeHand(hand)) return true;
+        else return false;
     }
 
     beatsEqualTypeHand(hand) {
+        let bestCards = this.getKickers();
+        let handBestCards = hand.getKickers();
+
+        const limit =
+            bestCards.length <= handBestCards.length
+                ? bestCards.length
+                : handBestCards.length;
+
+        for (let i = 0; i < limit; i++) {
+            if (
+                bestCards[i].getRank().getValue() >
+                handBestCards[i].getRank().getValue()
+            )
+                return true;
+            else if (
+                bestCards[i].getRank().getValue() <
+                handBestCards[i].getRank().getValue()
+            )
+                return false;
+            else continue;
+        }
+
+        return false;
+    }
+
+    getHandCards() {
         throw new Error(
-            "Method 'beatsEqualTypeHand(Hand) : boolean' must be implemented in concrete class"
+            "Method 'getHandCards() : Card[]' must be implemented in concrete class"
         );
     }
 
-    getRankedCards(cards = []) {
-        let rankedCards = cards;
+    getKickers() {
+        let handCards = this.getHandCards();
+        return this.cards.filter((c) => !handCards.includes(c));
+    }
 
-        let availableCards = this.cards.filter((c) => !rankedCards.includes(c));
+    getRankedCards() {
+        let rankedCards = this.getHandCards();
+        let availableCards = this.getKickers();
 
         while (rankedCards.length < 5) {
             rankedCards.push(availableCards.shift());

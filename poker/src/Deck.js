@@ -10,7 +10,7 @@ class Deck {
         let id = 0;
         for (const s in Suit) {
             for (const r in Rank) {
-                this.cards.push(new Card(id, Rank[r], Suit[s], true));
+                this.cards.push(new Card(id, Rank[r], Suit[s]));
                 id++;
             }
         }
