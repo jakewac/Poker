@@ -1,5 +1,6 @@
 import Hand from "./Hand";
 import Flush from "./poker_hand_ranks/Flush";
+import FourOfAKind from "./poker_hand_ranks/FourOfAKind";
 import FullHouse from "./poker_hand_ranks/FullHouse";
 import HighCard from "./poker_hand_ranks/HighCard";
 import Pair from "./poker_hand_ranks/Pair";
@@ -28,7 +29,8 @@ class PokerUtil {
             new Straight(4),
             new Flush(5),
             new FullHouse(6),
-            new StraightFlush(7),
+            new FourOfAKind(7),
+            new StraightFlush(8),
         ];
 
         const combinedHand = new Hand(
@@ -40,6 +42,8 @@ class PokerUtil {
         )) {
             if (rank.makesHand(combinedHand)) return rank;
         }
+
+        return null;
     }
 
     getBestHand() {
@@ -52,7 +56,8 @@ class PokerUtil {
         }
 
         const boardRanked = this.getRankedHand(new Hand());
-        if (boardRanked.beatsHand(winner)) winner = boardRanked;
+        if (boardRanked != null && boardRanked.beatsHand(winner))
+            winner = boardRanked;
 
         return winner;
     }
