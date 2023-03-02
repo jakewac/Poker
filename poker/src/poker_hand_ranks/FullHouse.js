@@ -56,6 +56,10 @@ class FullHouse extends PokerHandRank {
     getName() {
         return "Full House";
     }
+
+    getDetailedName() {
+        return "Full House (" + this.tripleRank + ", " + this.pairRank + ")";
+    }
 }
 
 export default FullHouse;

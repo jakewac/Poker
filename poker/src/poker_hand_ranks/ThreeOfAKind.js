@@ -35,6 +35,10 @@ class ThreeOfAKind extends PokerHandRank {
     getName() {
         return "Three Of A Kind";
     }
+
+    getDetailedName() {
+        return "Three Of A Kind (" + this.bestTriple + ")";
+    }
 }
 
 export default ThreeOfAKind;

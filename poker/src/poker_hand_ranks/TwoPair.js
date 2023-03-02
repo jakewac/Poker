@@ -49,6 +49,10 @@ class TwoPair extends PokerHandRank {
     getName() {
         return "Two Pair";
     }
+
+    getDetailedName() {
+        return "Two Pair (" + this.bestPair + ", " + this.secondPair + ")";
+    }
 }
 
 export default TwoPair;

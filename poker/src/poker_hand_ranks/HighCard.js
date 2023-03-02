@@ -27,6 +27,10 @@ class HighCard extends PokerHandRank {
     getName() {
         return "High Card";
     }
+
+    getDetailedName() {
+        return "High Card (" + this.bestRank + ")";
+    }
 }
 
 export default HighCard;

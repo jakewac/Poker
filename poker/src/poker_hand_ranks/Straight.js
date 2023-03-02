@@ -47,15 +47,18 @@ class Straight extends PokerHandRank {
     }
 
     beatsEqualTypeHand(hand) {
-        if (this.ranks[0].getValue() > hand.ranks[0].getRank().getValue())
-            return true;
-        else if (this.ranks[0].getValue() < hand.ranks[0].getRank().getValue())
+        if (this.ranks[0].getValue() > hand.ranks[0].getValue()) return true;
+        else if (this.ranks[0].getValue() < hand.ranks[0].getValue())
             return false;
         else return super.beatsEqualTypeHand(hand);
     }
 
     getName() {
         return "Straight";
+    }
+
+    getDetailedName() {
+        return "Straight (" + this.ranks[0] + ")";
     }
 }
 

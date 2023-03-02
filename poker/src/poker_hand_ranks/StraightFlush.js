@@ -54,7 +54,7 @@ class StraightFlush extends PokerHandRank {
 
         for (const rank of this.ranks) {
             for (const card of this.cards) {
-                if (card.getRank() === rank) {
+                if (card.getRank() === rank && card.getSuit() === this.suit) {
                     cards.push(card);
                     break;
                 }
@@ -65,15 +65,18 @@ class StraightFlush extends PokerHandRank {
     }
 
     beatsEqualTypeHand(hand) {
-        if (this.ranks[0].getValue() > hand.ranks[0].getRank().getValue())
-            return true;
-        else if (this.ranks[0].getValue() < hand.ranks[0].getRank().getValue())
+        if (this.ranks[0].getValue() > hand.ranks[0].getValue()) return true;
+        else if (this.ranks[0].getValue() < hand.ranks[0].getValue())
             return false;
         else return super.beatsEqualTypeHand(hand);
     }
 
     getName() {
         return "Straight Flush";
+    }
+
+    getDetailedName() {
+        return "Straight Flush (" + this.suit + ", " + this.ranks[0] + ")";
     }
 }
 

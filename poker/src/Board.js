@@ -70,7 +70,8 @@ class Board extends React.Component {
                 hand.getCards().concat(this.game.getBoard().getCards())
             );
 
-            const status = PokerUtil.getRankedHand(combinedHand).getName();
+            const status =
+                PokerUtil.getRankedHand(combinedHand).getDetailedName();
 
             playerHands.push(
                 <Player key={id} hand={hand} status={status}></Player>

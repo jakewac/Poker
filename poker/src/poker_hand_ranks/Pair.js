@@ -34,6 +34,10 @@ class Pair extends PokerHandRank {
     getName() {
         return "Pair";
     }
+
+    getDetailedName() {
+        return "Pair (" + this.bestPair + ")";
+    }
 }
 
 export default Pair;

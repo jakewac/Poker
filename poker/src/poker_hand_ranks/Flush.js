@@ -53,6 +53,16 @@ class Flush extends PokerHandRank {
     getName() {
         return "Flush";
     }
+
+    getDetailedName() {
+        return (
+            "Flush (" +
+            this.suit +
+            ", " +
+            this.getHandCards()[0].getRank() +
+            ")"
+        );
+    }
 }
 
 export default Flush;

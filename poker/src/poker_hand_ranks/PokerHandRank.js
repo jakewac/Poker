@@ -94,6 +94,12 @@ class PokerHandRank {
             "Method 'getName() : string' must be implemented in concrete class"
         );
     }
+
+    getDetailedName() {
+        throw new Error(
+            "Method 'getDetailedName() : string' must be implemented in concrete class"
+        );
+    }
 }
 
 export default PokerHandRank;

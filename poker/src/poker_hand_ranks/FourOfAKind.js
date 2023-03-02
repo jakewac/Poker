@@ -33,6 +33,10 @@ class FourOfAKind extends PokerHandRank {
     getName() {
         return "Four Of A Kind";
     }
+
+    getDetailedName() {
+        return "Four Of A Kind (" + this.rank + ")";
+    }
 }
 
 export default FourOfAKind;
