@@ -44,6 +44,14 @@ class Card {
         this.shown = shown;
     }
 
+    equals(other) {
+        if (!(other instanceof Card)) return false;
+        return (
+            this.rank.equals(other.getRank()) &&
+            this.suit.equals(other.getSuit())
+        );
+    }
+
     toString() {
         return this.rank.name + " of " + this.suit.name;
     }

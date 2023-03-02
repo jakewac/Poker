@@ -10,17 +10,7 @@ import ThreeOfAKind from "./poker_hand_ranks/ThreeOfAKind";
 import TwoPair from "./poker_hand_ranks/TwoPair";
 
 class PokerUtil {
-    constructor(hands, board) {
-        this.hands = hands;
-        this.board = board;
-
-        this.rankedHands = [];
-        for (const hand of this.hands) {
-            this.rankedHands.push(this.getRankedHand(hand));
-        }
-    }
-
-    getRankedHand(hand) {
+    static getRankedHand(hand) {
         const handRanks = [
             new HighCard(0),
             new Pair(1),
@@ -33,25 +23,30 @@ class PokerUtil {
             new StraightFlush(8),
         ];
 
-        const combinedHand = new Hand(
-            hand.getCards().concat(this.board.getCards())
-        );
-
         for (const rank of handRanks.sort(
             (a, b) => b.getHandTypeValue() - a.getHandTypeValue()
         )) {
-            if (rank.makesHand(combinedHand)) return rank;
+            if (rank.makesHand(hand)) return rank;
         }
 
         return null;
     }
 
-    getBestHand() {
-        let winner = this.rankedHands[0];
+    static getBestHand(hands, board) {
+        let rankedHands = [];
+        for (const hand of hands) {
+            const combinedHand = new Hand(
+                hand.getCards().concat(board.getCards())
+            );
 
-        for (let i = 1; i < this.rankedHands.length; i++) {
-            if (!winner.beatsHand(this.rankedHands[i])) {
-                winner = this.rankedHands[i];
+            rankedHands.push(this.getRankedHand(combinedHand));
+        }
+
+        let winner = rankedHands[0];
+
+        for (let i = 1; i < rankedHands.length; i++) {
+            if (!winner.beatsHand(rankedHands[i])) {
+                winner = rankedHands[i];
             }
         }
 

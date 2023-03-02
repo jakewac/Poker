@@ -24,6 +24,18 @@ class Hand {
         }
     }
 
+    equals(other) {
+        if (!(other instanceof Hand)) return false;
+
+        if (other.getCards().length !== this.cards.length) return false;
+
+        for (const card of this.cards) {
+            if (!other.getCards().includes(card)) return false;
+        }
+
+        return true;
+    }
+
     toString() {
         return this.cards.join(" | ");
     }

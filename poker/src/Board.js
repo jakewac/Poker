@@ -3,6 +3,7 @@ import React from "react";
 import "./Board.css";
 
 import Hand from "./Hand";
+import Player from "./Player";
 import PokerUtil from "./PokerUtil";
 
 class Board extends React.Component {
@@ -12,7 +13,7 @@ class Board extends React.Component {
         this.game = this.props.game;
 
         this.state = {
-            playerHands: this.game.getHands(),
+            playerHands: this.getPlayerHands(),
             board: this.game.getBoard(),
             deck: this.game.getDeck(),
             status: "",
@@ -24,7 +25,7 @@ class Board extends React.Component {
         this.game.dealCards();
 
         this.setState({
-            playerHands: this.game.getHands(),
+            playerHands: this.getPlayerHands(),
             board: this.game.getBoard(),
             deck: this.game.getDeck(),
             status: "",
@@ -35,19 +36,17 @@ class Board extends React.Component {
         this.game.dealBoardCard();
 
         this.setState({
-            playerHands: this.game.getHands(),
+            playerHands: this.getPlayerHands(),
             board: this.game.getBoard(),
             deck: this.game.getDeck(),
         });
     }
 
     checkDealtHand() {
-        const pokerUtil = new PokerUtil(
-            this.state.playerHands,
-            this.state.board
+        const bestHand = PokerUtil.getBestHand(
+            this.game.getHands(),
+            this.game.getBoard()
         );
-
-        const bestHand = pokerUtil.getBestHand();
 
         const label =
             bestHand.getName() +
@@ -55,8 +54,32 @@ class Board extends React.Component {
             new Hand(bestHand.getRankedCards()).toString();
 
         this.setState({
+            playerHands: this.getPlayerHands(),
             status: label,
         });
+    }
+
+    getPlayerHands() {
+        let playerHands = [];
+
+        let id = Math.random();
+        for (const hand of this.game.getHands()) {
+            if (!hand.getCards().length) continue;
+
+            const combinedHand = new Hand(
+                hand.getCards().concat(this.game.getBoard().getCards())
+            );
+
+            const status = PokerUtil.getRankedHand(combinedHand).getName();
+
+            playerHands.push(
+                <Player key={id} hand={hand} status={status}></Player>
+            );
+
+            id += 1;
+        }
+
+        return playerHands;
     }
 
     getCardRender(card) {
@@ -71,29 +94,6 @@ class Board extends React.Component {
                 <img src={cardImagePath} alt={cardName}></img>
             </div>
         );
-    }
-
-    getPlayerHandsRender() {
-        let playerHands = [];
-
-        let id = 0;
-        for (const hand of this.state.playerHands) {
-            let cardRenders = [];
-            for (const card of hand.getCards()) {
-                cardRenders.push(this.getCardRender(card));
-            }
-
-            playerHands.push(
-                <div key={id}>
-                    <div className="handCondensed">{cardRenders}</div>
-                    <div className="handStatusLabel">{hand.toString()}</div>
-                </div>
-            );
-
-            id += 1;
-        }
-
-        return playerHands;
     }
 
     getBoardRender() {
@@ -122,7 +122,7 @@ class Board extends React.Component {
                     <br></br>
                     <button onClick={() => this.checkDealtHand()}>Check</button>
                 </div>
-                <div className="handList">{this.getPlayerHandsRender()}</div>
+                <div className="handList">{this.state.playerHands}</div>
                 <br></br>
                 <div>{this.state.status}</div>
                 <br></br>

@@ -1,11 +1,17 @@
 class Suit {
-    static HEARTS = new Suit("hearts");
-    static CLUBS = new Suit("clubs");
-    static DIAMONDS = new Suit("diamonds");
-    static SPADES = new Suit("spades");
+    static HEARTS = new Suit("hearts", 0);
+    static CLUBS = new Suit("clubs", 1);
+    static DIAMONDS = new Suit("diamonds", 2);
+    static SPADES = new Suit("spades", 3);
 
-    constructor(name) {
+    constructor(name, value) {
         this.name = name;
+        this.value = value;
+    }
+
+    equals(other) {
+        if (!(other instanceof Suit)) return false;
+        return this.value === other.value;
     }
 
     toString() {

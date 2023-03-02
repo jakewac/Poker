@@ -21,7 +21,7 @@ class Flush extends PokerHandRank {
     }
 
     getHandCards() {
-        return this.cards.filter((c) => c.getSuit() === this.suit);
+        return this.cards.filter((c) => c.getSuit() === this.suit).slice(0, 5);
     }
 
     beatsEqualTypeHand(hand) {
