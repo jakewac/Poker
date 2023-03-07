@@ -45,21 +45,23 @@ class Board extends React.Component {
         });
     }
 
-    checkDealtHand() {
+    checkHands() {
         const bestHand = PokerUtil.getBestHand(
             this.game.getHands(),
             this.game.getBoard()
         );
 
-        const label =
-            bestHand.getName() +
-            " - " +
-            new Hand(bestHand.getRankedCards()).toString();
+        if (bestHand != null) {
+            const label =
+                bestHand.getName() +
+                " - " +
+                new Hand(bestHand.getRankedCards()).toString();
 
-        this.setState({
-            playerHands: this.getPlayerHands(),
-            status: label,
-        });
+            this.setState({
+                playerHands: this.getPlayerHands(),
+                status: label,
+            });
+        }
     }
 
     selectCard(card, hand) {
@@ -81,14 +83,15 @@ class Board extends React.Component {
         for (const hand of this.game.getHands()) {
             const cards = hand.getCards();
 
-            if (!cards.length) continue;
+            let status = "";
+            if (cards.length) {
+                const combinedHand = new Hand(
+                    cards.concat(this.game.getBoard().getCards())
+                );
 
-            const combinedHand = new Hand(
-                cards.concat(this.game.getBoard().getCards())
-            );
-
-            const status =
-                PokerUtil.getRankedHand(combinedHand).getDetailedName();
+                status =
+                    PokerUtil.getRankedHand(combinedHand).getDetailedName();
+            }
 
             playerHands.push(
                 <div key={id}>
@@ -156,7 +159,7 @@ class Board extends React.Component {
                     <br />
                     <button onClick={() => this.dealCard()}>Deal</button>
 
-                    <button onClick={() => this.checkDealtHand()}>Check</button>
+                    <button onClick={() => this.checkHands()}>Check</button>
                 </div>
                 <div className="handList">{this.state.playerHands}</div>
                 <br />

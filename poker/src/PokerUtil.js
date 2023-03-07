@@ -35,6 +35,8 @@ class PokerUtil {
     static getBestHand(hands, board) {
         let rankedHands = [];
         for (const hand of hands) {
+            if (!hand.getCards().length) continue;
+
             const combinedHand = new Hand(
                 hand.getCards().concat(board.getCards())
             );
@@ -42,8 +44,9 @@ class PokerUtil {
             rankedHands.push(this.getRankedHand(combinedHand));
         }
 
-        let winner = rankedHands[0];
+        if (!rankedHands.length) return null;
 
+        let winner = rankedHands[0];
         for (let i = 1; i < rankedHands.length; i++) {
             if (!winner.beatsHand(rankedHands[i])) {
                 winner = rankedHands[i];
