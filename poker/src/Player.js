@@ -12,12 +12,6 @@ class Player extends React.Component {
         };
     }
 
-    setStatus(status) {
-        this.setState({
-            status: status,
-        });
-    }
-
     getCardRender(card, id) {
         const cardName = card.shown
             ? card.getRank().toString() + "_of_" + card.getSuit().toString()

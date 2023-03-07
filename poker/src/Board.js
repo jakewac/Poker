@@ -69,7 +69,7 @@ class Board extends React.Component {
     getPlayerHands() {
         let playerHands = [];
 
-        let id = 0;
+        let id = Math.random();
         for (const hand of this.game.getHands()) {
             const handId = id;
             const cards = hand.getCards();
