@@ -2,7 +2,7 @@ import Rank from "./Rank";
 import Suit from "./Suit";
 
 class Card {
-    constructor(id, rank, suit, shown = true) {
+    constructor(rank, suit, shown = true) {
         if (!(rank instanceof Rank)) {
             throw new Error("Invalid card rank");
         }
@@ -10,14 +10,9 @@ class Card {
             throw new Error("Invalid card suit");
         }
 
-        this.id = id;
         this.rank = rank;
         this.suit = suit;
         this.shown = shown;
-    }
-
-    getId() {
-        return this.id;
     }
 
     getRank() {

@@ -2,6 +2,7 @@ import React from "react";
 
 import "./Board.css";
 
+import CardSelect from "./CardSelect";
 import Hand from "./Hand";
 import Player from "./Player";
 import PokerUtil from "./PokerUtil";
@@ -33,7 +34,9 @@ class Board extends React.Component {
     }
 
     dealCard() {
-        this.game.dealBoardCard();
+        if (this.game.getBoard().getCards().length < 5) {
+            this.game.dealBoardCard();
+        }
 
         this.setState({
             playerHands: this.getPlayerHands(),
@@ -59,22 +62,35 @@ class Board extends React.Component {
         });
     }
 
+    selectCard(card, handId) {
+        console.log(card);
+    }
+
     getPlayerHands() {
         let playerHands = [];
 
         let id = Math.random();
         for (const hand of this.game.getHands()) {
-            if (!hand.getCards().length) continue;
+            const handId = id;
+            const cards = hand.getCards();
+
+            if (!cards.length) continue;
 
             const combinedHand = new Hand(
-                hand.getCards().concat(this.game.getBoard().getCards())
+                cards.concat(this.game.getBoard().getCards())
             );
 
             const status =
                 PokerUtil.getRankedHand(combinedHand).getDetailedName();
 
             playerHands.push(
-                <Player key={id} hand={hand} status={status}></Player>
+                <div key={id}>
+                    <Player cards={cards} status={status}></Player>
+                    <CardSelect
+                        cards={this.game.getDeck().getCards()}
+                        onSelectCard={(card) => this.selectCard(card, handId)}
+                    ></CardSelect>
+                </div>
             );
 
             id += 1;
@@ -83,39 +99,39 @@ class Board extends React.Component {
         return playerHands;
     }
 
-    getCardRender(card) {
+    getCardRender(card, id) {
         const cardName = card.shown
             ? card.getRank().toString() + "_of_" + card.getSuit().toString()
             : "back";
 
         const cardImagePath = "./deck/" + cardName + ".svg";
 
-        return (
-            <div key={card.getId()}>
-                <img src={cardImagePath} alt={cardName}></img>
-            </div>
-        );
+        return <img key={id} src={cardImagePath} alt={cardName}></img>;
     }
 
     getBoardRender() {
         let cardRenders = [];
+        let id = 0;
         for (const card of this.state.board.getCards()) {
-            cardRenders.push(this.getCardRender(card));
+            cardRenders.push(this.getCardRender(card, id));
+            id += 1;
         }
         return cardRenders;
     }
 
     getDeckRender() {
         let cardRenders = [];
+        let id = 0;
         for (const card of this.state.deck.getCards()) {
-            cardRenders.push(this.getCardRender(card));
+            cardRenders.push(this.getCardRender(card, id));
+            id += 1;
         }
         return cardRenders;
     }
 
     render() {
         return (
-            <div>
+            <>
                 <div>
                     <button onClick={() => this.newHand()}>New Hand</button>
                     <br></br>
@@ -131,7 +147,7 @@ class Board extends React.Component {
                 <br></br>
                 <div className="hand">{this.getDeckRender()}</div>
                 <br></br>
-            </div>
+            </>
         );
     }
 }
