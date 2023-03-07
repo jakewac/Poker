@@ -1,2 +1,3 @@
-# Blackjack
-A Blackjack game programmed using React
+# Poker
+
+A Poker game programmed using React
