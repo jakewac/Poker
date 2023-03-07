@@ -3,12 +3,28 @@ class Hand {
         this.cards = cards;
     }
 
+    isInHand(card) {
+        for (const c of this.cards) {
+            if (card.equals(c)) return true;
+        }
+        return false;
+    }
+
     addCard(card) {
         this.cards.push(card);
     }
 
     removeCard(card) {
-        let index = this.cards.indexOf(card);
+        let index = -1;
+        let i = 0;
+        for (const c of this.cards) {
+            if (card.equals(c)) {
+                index = i;
+                break;
+            }
+            i += 1;
+        }
+
         if (index > -1) {
             this.cards.splice(index, 1);
         }
@@ -30,7 +46,7 @@ class Hand {
         if (other.getCards().length !== this.cards.length) return false;
 
         for (const card of this.cards) {
-            if (!other.getCards().includes(card)) return false;
+            if (!other.isInHand(card)) return false;
         }
 
         return true;

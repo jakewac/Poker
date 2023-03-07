@@ -62,8 +62,16 @@ class Board extends React.Component {
         });
     }
 
-    selectCard(card, handId) {
-        console.log(card);
+    selectCard(card, hand) {
+        if (hand.isInHand(card)) {
+            hand.removeCard(card);
+        } else {
+            hand.addCard(card);
+        }
+
+        this.setState({
+            playerHands: this.getPlayerHands(),
+        });
     }
 
     getPlayerHands() {
@@ -71,7 +79,6 @@ class Board extends React.Component {
 
         let id = Math.random();
         for (const hand of this.game.getHands()) {
-            const handId = id;
             const cards = hand.getCards();
 
             if (!cards.length) continue;
@@ -88,7 +95,7 @@ class Board extends React.Component {
                     <Player cards={cards} status={status}></Player>
                     <CardSelect
                         cards={this.game.getDeck().getCards()}
-                        onSelectCard={(card) => this.selectCard(card, handId)}
+                        onSelectCard={(card) => this.selectCard(card, hand)}
                     ></CardSelect>
                 </div>
             );
@@ -116,7 +123,19 @@ class Board extends React.Component {
             cardRenders.push(this.getCardRender(card, id));
             id += 1;
         }
-        return cardRenders;
+
+        return (
+            <>
+                <div className="hand">{cardRenders}</div>
+                <br />
+                <CardSelect
+                    cards={this.game.getDeck().getCards()}
+                    onSelectCard={(card) =>
+                        this.selectCard(card, this.game.getBoard())
+                    }
+                ></CardSelect>
+            </>
+        );
     }
 
     getDeckRender() {
@@ -126,7 +145,7 @@ class Board extends React.Component {
             cardRenders.push(this.getCardRender(card, id));
             id += 1;
         }
-        return cardRenders;
+        return <div className="hand">{cardRenders}</div>;
     }
 
     render() {
@@ -134,19 +153,19 @@ class Board extends React.Component {
             <>
                 <div>
                     <button onClick={() => this.newHand()}>New Hand</button>
-                    <br></br>
+                    <br />
                     <button onClick={() => this.dealCard()}>Deal</button>
-                    <br></br>
+
                     <button onClick={() => this.checkDealtHand()}>Check</button>
                 </div>
                 <div className="handList">{this.state.playerHands}</div>
-                <br></br>
-                <div>{this.state.status}</div>
-                <br></br>
-                <div className="hand">{this.getBoardRender()}</div>
-                <br></br>
-                <div className="hand">{this.getDeckRender()}</div>
-                <br></br>
+                <br />
+                {this.state.status}
+                <br />
+                {this.getBoardRender()}
+                <br />
+                {this.getDeckRender()}
+                <br />
             </>
         );
     }

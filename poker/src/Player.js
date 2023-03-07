@@ -31,10 +31,10 @@ class Player extends React.Component {
         }
 
         return (
-            <div>
+            <>
                 <div className="handCondensed">{cardsRender}</div>
                 <div className="handStatusLabel">{this.state.status}</div>
-            </div>
+            </>
         );
     }
 }
