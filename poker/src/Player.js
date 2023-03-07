@@ -6,16 +6,10 @@ class Player extends React.Component {
     constructor(props) {
         super(props);
 
-        this.hand = this.props.hand;
-
         this.state = {
-            cards: this.hand.getCards(),
+            cards: this.props.cards,
             status: this.props.status,
         };
-    }
-
-    getHand() {
-        return this.hand;
     }
 
     setStatus(status) {
@@ -24,29 +18,27 @@ class Player extends React.Component {
         });
     }
 
-    getCardRender(card) {
+    getCardRender(card, id) {
         const cardName = card.shown
             ? card.getRank().toString() + "_of_" + card.getSuit().toString()
             : "back";
 
         const cardImagePath = "./deck/" + cardName + ".svg";
 
-        return (
-            <div key={card.getId()}>
-                <img src={cardImagePath} alt={cardName}></img>
-            </div>
-        );
+        return <img key={id} src={cardImagePath} alt={cardName}></img>;
     }
 
     render() {
-        let cardRenders = [];
+        let cardsRender = [];
+        let id = 0;
         for (const card of this.state.cards) {
-            cardRenders.push(this.getCardRender(card));
+            cardsRender.push(this.getCardRender(card, id));
+            id += 1;
         }
 
         return (
             <div>
-                <div className="handCondensed">{cardRenders}</div>
+                <div className="handCondensed">{cardsRender}</div>
                 <div className="handStatusLabel">{this.state.status}</div>
             </div>
         );
