@@ -24,10 +24,10 @@ class FourOfAKind extends PokerHandRank {
         return this.cards.filter((c) => c.getRank() === this.rank);
     }
 
-    beatsEqualTypeHand(hand) {
-        if (this.rank.getValue() > hand.rank.getValue()) return true;
-        else if (this.rank.getValue() < hand.rank.getValue()) return false;
-        else return super.beatsEqualTypeHand(hand);
+    compareEqualTypeHand(hand) {
+        if (this.rank.getValue() > hand.rank.getValue()) return 1;
+        else if (this.rank.getValue() < hand.rank.getValue()) return -1;
+        else return super.compareEqualTypeHand(hand);
     }
 
     getName() {

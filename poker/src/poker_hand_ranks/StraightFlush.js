@@ -64,11 +64,10 @@ class StraightFlush extends PokerHandRank {
         return cards;
     }
 
-    beatsEqualTypeHand(hand) {
-        if (this.ranks[0].getValue() > hand.ranks[0].getValue()) return true;
-        else if (this.ranks[0].getValue() < hand.ranks[0].getValue())
-            return false;
-        else return super.beatsEqualTypeHand(hand);
+    compareEqualTypeHand(hand) {
+        if (this.ranks[0].getValue() > hand.ranks[0].getValue()) return 1;
+        else if (this.ranks[0].getValue() < hand.ranks[0].getValue()) return -1;
+        else return super.compareEqualTypeHand(hand);
     }
 
     getName() {

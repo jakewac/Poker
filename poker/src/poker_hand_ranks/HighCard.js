@@ -17,11 +17,10 @@ class HighCard extends PokerHandRank {
         return [];
     }
 
-    beatsEqualTypeHand(hand) {
-        if (this.bestRank.getValue() > hand.bestRank.getValue()) return true;
-        else if (this.bestRank.getValue() < hand.bestRank.getValue())
-            return false;
-        else return super.beatsEqualTypeHand(hand);
+    compareEqualTypeHand(hand) {
+        if (this.bestRank.getValue() > hand.bestRank.getValue()) return 1;
+        else if (this.bestRank.getValue() < hand.bestRank.getValue()) return -1;
+        else return super.compareEqualTypeHand(hand);
     }
 
     getName() {

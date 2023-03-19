@@ -24,7 +24,7 @@ class Flush extends PokerHandRank {
         return this.cards.filter((c) => c.getSuit() === this.suit).slice(0, 5);
     }
 
-    beatsEqualTypeHand(hand) {
+    compareEqualTypeHand(hand) {
         let bestCards = this.getHandCards();
         let handBestCards = hand.getHandCards();
 
@@ -38,16 +38,16 @@ class Flush extends PokerHandRank {
                 bestCards[i].getRank().getValue() >
                 handBestCards[i].getRank().getValue()
             )
-                return true;
+                return 1;
             else if (
                 bestCards[i].getRank().getValue() <
                 handBestCards[i].getRank().getValue()
             )
-                return false;
+                return -1;
             else continue;
         }
 
-        return super.beatsEqualTypeHand(hand);
+        return super.compareEqualTypeHand(hand);
     }
 
     getName() {

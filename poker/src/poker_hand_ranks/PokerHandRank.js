@@ -18,6 +18,7 @@ class PokerHandRank {
     makesHand(hand) {
         this.cards = hand
             .getCards()
+            .slice(0)
             .sort((a, b) => b.rank.value - a.rank.value);
 
         this.uniqueRanks = Array.from(
@@ -28,20 +29,14 @@ class PokerHandRank {
         );
     }
 
-    isDraw(hand) {
-        if (this.beatsHand(hand) || hand.beatsHand(this)) return false;
-        else return true;
+    compareHand(hand) {
+        if (this.handTypeValue > hand.getHandTypeValue()) return 1;
+        else if (this.handTypeValue < hand.getHandTypeValue()) return -1;
+
+        return this.compareEqualTypeHand(hand);
     }
 
-    beatsHand(hand) {
-        if (this.handTypeValue > hand.getHandTypeValue()) return true;
-        else if (this.handTypeValue < hand.getHandTypeValue()) return false;
-
-        if (this.beatsEqualTypeHand(hand)) return true;
-        else return false;
-    }
-
-    beatsEqualTypeHand(hand) {
+    compareEqualTypeHand(hand) {
         let bestCards = this.getKickers();
         let handBestCards = hand.getKickers();
 
@@ -55,16 +50,16 @@ class PokerHandRank {
                 bestCards[i].getRank().getValue() >
                 handBestCards[i].getRank().getValue()
             )
-                return true;
+                return 1;
             else if (
                 bestCards[i].getRank().getValue() <
                 handBestCards[i].getRank().getValue()
             )
-                return false;
+                return -1;
             else continue;
         }
 
-        return false;
+        return 0;
     }
 
     getHandCards() {
@@ -99,6 +94,10 @@ class PokerHandRank {
         throw new Error(
             "Method 'getDetailedName() : string' must be implemented in concrete class"
         );
+    }
+
+    toString() {
+        return this.getName() + ": " + this.cards.join(", ");
     }
 }
 

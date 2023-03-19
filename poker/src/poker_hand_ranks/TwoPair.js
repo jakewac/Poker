@@ -34,16 +34,14 @@ class TwoPair extends PokerHandRank {
         );
     }
 
-    beatsEqualTypeHand(hand) {
-        if (this.bestPair.getValue() > hand.bestPair.getValue()) return true;
-        else if (this.bestPair.getValue() < hand.bestPair.getValue())
-            return false;
+    compareEqualTypeHand(hand) {
+        if (this.bestPair.getValue() > hand.bestPair.getValue()) return 1;
+        else if (this.bestPair.getValue() < hand.bestPair.getValue()) return -1;
 
-        if (this.secondPair.getValue() > hand.secondPair.getValue())
-            return true;
+        if (this.secondPair.getValue() > hand.secondPair.getValue()) return 1;
         else if (this.secondPair.getValue() < hand.secondPair.getValue())
-            return false;
-        else return super.beatsEqualTypeHand(hand);
+            return -1;
+        else return super.compareEqualTypeHand(hand);
     }
 
     getName() {

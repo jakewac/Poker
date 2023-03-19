@@ -24,11 +24,10 @@ class Pair extends PokerHandRank {
         return this.cards.filter((c) => c.getRank() === this.bestPair);
     }
 
-    beatsEqualTypeHand(hand) {
-        if (this.bestPair.getValue() > hand.bestPair.getValue()) return true;
-        else if (this.bestPair.getValue() < hand.bestPair.getValue())
-            return false;
-        else return super.beatsEqualTypeHand(hand);
+    compareEqualTypeHand(hand) {
+        if (this.bestPair.getValue() > hand.bestPair.getValue()) return 1;
+        else if (this.bestPair.getValue() < hand.bestPair.getValue()) return -1;
+        else return super.compareEqualTypeHand(hand);
     }
 
     getName() {

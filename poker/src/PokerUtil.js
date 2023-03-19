@@ -46,18 +46,23 @@ class PokerUtil {
 
         if (!rankedHands.length) return null;
 
-        let winner = rankedHands[0];
+        let bestHand = rankedHands[0];
         for (let i = 1; i < rankedHands.length; i++) {
-            if (!winner.beatsHand(rankedHands[i])) {
-                winner = rankedHands[i];
+            const result = bestHand.compareHand(rankedHands[i]);
+            if (result < 0) {
+                bestHand = rankedHands[i];
+            } else if (result === 0) {
+                console.log("TIE");
             }
         }
 
-        const boardRanked = this.getRankedHand(new Hand());
-        if (boardRanked != null && boardRanked.beatsHand(winner))
-            winner = boardRanked;
+        const boardRanked = this.getRankedHand(board);
+        if (boardRanked != null && boardRanked.compareHand(bestHand) > 0) {
+            console.log("BOARD WIN");
+            bestHand = boardRanked;
+        }
 
-        return winner;
+        return bestHand;
     }
 }
 
