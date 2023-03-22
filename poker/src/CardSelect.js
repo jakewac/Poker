@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./Card";
+import "./CardSelect.css";
 import Rank from "./Rank";
 import Suit from "./Suit";
 
@@ -8,71 +9,63 @@ class CardSelect extends React.Component {
         super(props);
 
         this.state = {
-            suit: null,
-            rank: null,
+            dropdownHidden: true,
         };
     }
 
-    rankSelected = (e) => {
-        this.setState({
-            rank: e.target.value,
-        });
-    };
+    getCardRender(card) {
+        const cardName = card.shown
+            ? card.getRank().toString() + "_of_" + card.getSuit().toString()
+            : "back";
 
-    suitSelected = (e) => {
-        this.setState({
-            suit: e.target.value,
-        });
-    };
+        const cardImagePath = "./cards/" + cardName + ".svg";
 
-    cardSelected = () => {
-        if (this.state.rank !== null && this.state.suit !== null) {
-            this.props.onSelectCard(
-                new Card(Rank[this.state.rank], Suit[this.state.suit])
-            );
-        }
-    };
+        return (
+            <img
+                className="grid-item"
+                onClick={() => this.props.onSelectCard(card)}
+                key={Math.random()}
+                src={cardImagePath}
+                alt={cardName}
+            ></img>
+        );
+    }
 
     render() {
-        let ranks = [];
-        for (const rank in Rank) {
-            ranks.push(rank);
-        }
+        let cardRenders = [];
 
-        let suits = [];
         for (const suit in Suit) {
-            suits.push(suit);
+            for (const rank in Rank) {
+                cardRenders.push(
+                    this.getCardRender(new Card(Rank[rank], Suit[suit]))
+                );
+            }
         }
 
         return (
             <>
-                <select defaultValue="RANK" onChange={this.rankSelected}>
-                    <option value="RANK" disabled>
-                        Rank
-                    </option>
-                    {ranks.map((x, y) => {
-                        return (
-                            <option key={y} value={x}>
-                                {Rank[x].toString()}
-                            </option>
-                        );
-                    })}
-                </select>
-
-                <select defaultValue="SUIT" onChange={this.suitSelected}>
-                    <option value="SUIT" disabled>
-                        Suit
-                    </option>
-                    {suits.map((x, y) => {
-                        return (
-                            <option key={y} value={x}>
-                                {Suit[x].toString()}
-                            </option>
-                        );
-                    })}
-                </select>
-
-                <button onClick={this.cardSelected}>+</button>
+                <div className="button-container">
+                    <div className="dropdown dropdown-animate">
+                        <div
+                            className="menu-button"
+                            onMouseEnter={() =>
+                                this.setState({ dropdownHidden: false })
+                            }
+                            onClick={() => this.props.clickFunction()}
+                            onMouseUp={() =>
+                                this.setState({ dropdownHidden: true })
+                            }
+                        >
+                            <span>{this.props.children}</span>
+                        </div>
+                        <div
+                            className="dropdown-content drop-content dropdown-animate"
+                            hidden={this.state.dropdownHidden}
+                        >
+                            <div className="grid-container">{cardRenders}</div>
+                        </div>
+                    </div>
+                </div>
             </>
         );
     }
