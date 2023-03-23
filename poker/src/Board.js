@@ -136,16 +136,6 @@ class Board extends React.Component {
         return cardRenders;
     }
 
-    menuCardsGrid(cards) {
-        let cardRenders = [];
-
-        for (const card of cards) {
-            cardRenders.push(this.getCardRender(card, "grid-item"));
-        }
-
-        return <div className="grid-container">{cardRenders}</div>;
-    }
-
     render() {
         const game = this.state.game;
 
@@ -158,8 +148,6 @@ class Board extends React.Component {
         const boardRender = this.getCardListRender(game.getBoard().getCards());
 
         const deckRender = this.getCardListRender(game.getDeck().getCards());
-
-        const menuCardsGrid = this.menuCardsGrid(game.getDeck().getCards());
 
         return (
             <>
