@@ -44,26 +44,24 @@ class CardSelect extends React.Component {
 
         return (
             <>
-                <div className="button-container">
-                    <div className="dropdown dropdown-animate">
-                        <div
-                            className="menu-button"
-                            onMouseEnter={() =>
-                                this.setState({ dropdownHidden: false })
-                            }
-                            onClick={() => this.props.clickFunction()}
-                            onMouseUp={() =>
-                                this.setState({ dropdownHidden: true })
-                            }
-                        >
-                            <span>{this.props.children}</span>
-                        </div>
-                        <div
-                            className="dropdown-content drop-content dropdown-animate"
-                            hidden={this.state.dropdownHidden}
-                        >
-                            <div className="grid-container">{cardRenders}</div>
-                        </div>
+                <div className="container">
+                    <div
+                        className="option"
+                        onMouseEnter={() =>
+                            this.setState({ dropdownHidden: false })
+                        }
+                        onClick={() => this.props.clickFunction()}
+                        onMouseUp={() =>
+                            this.setState({ dropdownHidden: true })
+                        }
+                    >
+                        <span>{this.props.children}</span>
+                    </div>
+                    <div
+                        className="dropdown"
+                        hidden={this.state.dropdownHidden}
+                    >
+                        <div className="grid-container">{cardRenders}</div>
                     </div>
                 </div>
             </>
