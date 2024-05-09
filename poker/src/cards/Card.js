@@ -35,8 +35,8 @@ class Card {
         this.rank = rank;
     }
 
-    setShown(shown) {
-        this.faceUp = shown;
+    setFaceUp(faceUp) {
+        this.faceUp = faceUp;
     }
 
     equals(other) {
