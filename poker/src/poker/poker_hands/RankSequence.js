@@ -1,7 +1,13 @@
-import Rank from "../Rank";
-import PokerHandRank from "./PokerHandRank";
+import Rank from "../../cards/Rank";
+import PokerHand from "./PokerHand";
 
-class Straight extends PokerHandRank {
+class RankSequence extends PokerHand {
+    constructor(value, count, name = "RankSequence") {
+        super(value, name);
+
+        this.count = count;
+    }
+
     makesHand(hand) {
         super.makesHand(hand);
 
@@ -11,19 +17,19 @@ class Straight extends PokerHandRank {
         if (checkRanks[0] === Rank.ACE) checkRanks.push(babyAce);
 
         for (let r = 1; r < checkRanks.length; r++) {
-            let bestStraight = [checkRanks[r - 1]];
+            let bestSequence = [checkRanks[r - 1]];
             let count = 0;
 
             for (let i = r; i < checkRanks.length; i++) {
                 if (checkRanks[i - 1].value - checkRanks[i].value === 1) {
                     count++;
-                    if (checkRanks[i] === babyAce) bestStraight.push(Rank.ACE);
-                    else bestStraight.push(checkRanks[i]);
+                    if (checkRanks[i] === babyAce) bestSequence.push(Rank.ACE);
+                    else bestSequence.push(checkRanks[i]);
                 } else break;
             }
 
-            if (count > 3) {
-                this.ranks = bestStraight.slice(0, 5);
+            if (count >= this.count - 1) {
+                this.ranks = bestSequence.slice(0, this.count);
                 return true;
             }
         }
@@ -52,13 +58,9 @@ class Straight extends PokerHandRank {
         else return super.compareEqualTypeHand(hand);
     }
 
-    getName() {
-        return "Straight";
-    }
-
     getDetailedName() {
-        return "Straight (" + this.ranks[0] + ")";
+        return `${this.getName()} (${this.ranks[0]})`;
     }
 }
 
-export default Straight;
+export default RankSequence;

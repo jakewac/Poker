@@ -1,17 +1,22 @@
-import PokerHandRank from "./PokerHandRank";
+import PokerHand from "./PokerHand";
 
-class FourOfAKind extends PokerHandRank {
+class RankMatch extends PokerHand {
+    constructor(value, count, name = "RankMatch") {
+        super(value, name);
+
+        this.count = count;
+    }
+
     makesHand(hand) {
         super.makesHand(hand);
 
         for (const rank of this.uniqueRanks) {
             let count = 0;
-
             this.cards.forEach((c) => {
                 if (c.getRank().equals(rank)) count++;
             });
 
-            if (count === 4) {
+            if (count === this.count) {
                 this.rank = rank;
                 return true;
             }
@@ -30,13 +35,9 @@ class FourOfAKind extends PokerHandRank {
         else return super.compareEqualTypeHand(hand);
     }
 
-    getName() {
-        return "Four Of A Kind";
-    }
-
     getDetailedName() {
-        return "Four Of A Kind (" + this.rank + ")";
+        return `${this.getName()} (${this.rank})`;
     }
 }
 
-export default FourOfAKind;
+export default RankMatch;

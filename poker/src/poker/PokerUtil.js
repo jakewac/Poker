@@ -1,13 +1,14 @@
-import Hand from "./Hand";
-import Flush from "./poker_hand_ranks/Flush";
-import FourOfAKind from "./poker_hand_ranks/FourOfAKind";
-import FullHouse from "./poker_hand_ranks/FullHouse";
-import HighCard from "./poker_hand_ranks/HighCard";
-import Pair from "./poker_hand_ranks/Pair";
-import Straight from "./poker_hand_ranks/Straight";
-import StraightFlush from "./poker_hand_ranks/StraightFlush";
-import ThreeOfAKind from "./poker_hand_ranks/ThreeOfAKind";
-import TwoPair from "./poker_hand_ranks/TwoPair";
+import Hand from "../cards/Hand";
+import Flush from "./poker_hands/Flush";
+import FourOfAKind from "./poker_hands/FourOfAKind";
+import FullHouse from "./poker_hands/FullHouse";
+import HighCard from "./poker_hands/HighCard";
+import Pair from "./poker_hands/Pair";
+import RoyalFlush from "./poker_hands/RoyalFlush";
+import Straight from "./poker_hands/Straight";
+import StraightFlush from "./poker_hands/StraightFlush";
+import ThreeOfAKind from "./poker_hands/ThreeOfAKind";
+import TwoPair from "./poker_hands/TwoPair";
 
 class PokerUtil {
     static getRankedHand(hand) {
@@ -21,6 +22,7 @@ class PokerUtil {
             new FullHouse(6),
             new FourOfAKind(7),
             new StraightFlush(8),
+            new RoyalFlush(9),
         ];
 
         for (const rank of handRanks.sort(

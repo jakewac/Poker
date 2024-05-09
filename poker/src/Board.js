@@ -3,9 +3,9 @@ import React from "react";
 import "./Board.css";
 
 import CardSelect from "./CardSelect";
-import Hand from "./Hand";
+import Hand from "./cards/Hand";
 import Player from "./Player";
-import PokerUtil from "./PokerUtil";
+import PokerUtil from "./poker/PokerUtil";
 
 class Board extends React.Component {
     constructor(props) {

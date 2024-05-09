@@ -1,6 +1,10 @@
-import PokerHandRank from "./PokerHandRank";
+import PokerHand from "./PokerHand";
 
-class TwoPair extends PokerHandRank {
+class TwoPair extends PokerHand {
+    constructor(value) {
+        super(value, "Two Pair");
+    }
+
     makesHand(hand) {
         super.makesHand(hand);
 
@@ -8,7 +12,6 @@ class TwoPair extends PokerHandRank {
 
         for (const rank of this.uniqueRanks) {
             let count = 0;
-
             this.cards.forEach((c) => {
                 if (c.getRank().equals(rank)) count++;
             });
@@ -17,8 +20,8 @@ class TwoPair extends PokerHandRank {
                 if (bestPairRank == null) {
                     bestPairRank = rank;
                 } else {
-                    this.bestPair = bestPairRank;
-                    this.secondPair = rank;
+                    this.highPair = bestPairRank;
+                    this.lowPair = rank;
                     return true;
                 }
             }
@@ -29,27 +32,21 @@ class TwoPair extends PokerHandRank {
 
     getHandCards() {
         return this.cards.filter(
-            (c) =>
-                c.getRank() === this.bestPair || c.getRank() === this.secondPair
+            (c) => c.getRank() === this.highPair || c.getRank() === this.lowPair
         );
     }
 
     compareEqualTypeHand(hand) {
-        if (this.bestPair.getValue() > hand.bestPair.getValue()) return 1;
-        else if (this.bestPair.getValue() < hand.bestPair.getValue()) return -1;
+        if (this.highPair.getValue() > hand.highPair.getValue()) return 1;
+        else if (this.highPair.getValue() < hand.highPair.getValue()) return -1;
 
-        if (this.secondPair.getValue() > hand.secondPair.getValue()) return 1;
-        else if (this.secondPair.getValue() < hand.secondPair.getValue())
-            return -1;
+        if (this.lowPair.getValue() > hand.lowPair.getValue()) return 1;
+        else if (this.lowPair.getValue() < hand.lowPair.getValue()) return -1;
         else return super.compareEqualTypeHand(hand);
     }
 
-    getName() {
-        return "Two Pair";
-    }
-
     getDetailedName() {
-        return "Two Pair (" + this.bestPair + ", " + this.secondPair + ")";
+        return `${this.getName()} (${this.highPair}, ${this.lowPair})`;
     }
 }
 

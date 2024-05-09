@@ -1,10 +1,14 @@
-import PokerHandRank from "./PokerHandRank";
+import PokerHand from "./PokerHand";
 
-class FullHouse extends PokerHandRank {
+class FullHouse extends PokerHand {
+    constructor(value) {
+        super(value, "Full House");
+    }
+
     makesHand(hand) {
         super.makesHand(hand);
 
-        let bestTripleRank = null;
+        let bestTripletRank = null;
         let bestPairRank = null;
 
         for (const rank of this.uniqueRanks) {
@@ -14,17 +18,17 @@ class FullHouse extends PokerHandRank {
             });
 
             if (count > 2) {
-                if (bestTripleRank == null) {
-                    bestTripleRank = rank;
-                } else {
+                if (bestTripletRank == null) {
+                    bestTripletRank = rank;
+                } else if (bestPairRank == null) {
                     bestPairRank = rank;
                 }
-            } else if (count === 2) {
+            } else if (count === 2 && bestPairRank == null) {
                 bestPairRank = rank;
             }
 
-            if (bestTripleRank != null && bestPairRank != null) {
-                this.tripleRank = bestTripleRank;
+            if (bestTripletRank != null && bestPairRank != null) {
+                this.tripletRank = bestTripletRank;
                 this.pairRank = bestPairRank;
                 return true;
             }
@@ -34,7 +38,8 @@ class FullHouse extends PokerHandRank {
     }
 
     getHandCards() {
-        let cards = this.cards.filter((c) => this.tripleRank === c.getRank());
+        let cards = this.cards.filter((c) => this.tripletRank === c.getRank());
+
         cards = cards.concat(
             this.cards.filter((c) => this.pairRank === c.getRank())
         );
@@ -43,8 +48,8 @@ class FullHouse extends PokerHandRank {
     }
 
     compareEqualTypeHand(hand) {
-        if (this.tripleRank.getValue() > hand.tripleRank.getValue()) return 1;
-        else if (this.tripleRank.getValue() < hand.tripleRank.getValue())
+        if (this.tripletRank.getValue() > hand.tripletRank.getValue()) return 1;
+        else if (this.tripletRank.getValue() < hand.tripletRank.getValue())
             return -1;
 
         if (this.pairRank.getValue() > hand.pairRank.getValue()) return 1;
@@ -52,12 +57,8 @@ class FullHouse extends PokerHandRank {
         else return super.compareEqualTypeHand(hand);
     }
 
-    getName() {
-        return "Full House";
-    }
-
     getDetailedName() {
-        return "Full House (" + this.tripleRank + ", " + this.pairRank + ")";
+        return `${this.getName()} (${this.tripletRank}, ${this.pairRank})`;
     }
 }
 

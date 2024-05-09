@@ -1,6 +1,10 @@
-import PokerHandRank from "./PokerHandRank";
+import PokerHand from "./PokerHand";
 
-class HighCard extends PokerHandRank {
+class HighCard extends PokerHand {
+    constructor(value) {
+        super(value, "High Card");
+    }
+
     makesHand(hand) {
         super.makesHand(hand);
 
@@ -11,10 +15,7 @@ class HighCard extends PokerHandRank {
     }
 
     getHandCards() {
-        for (const card of this.cards) {
-            if (card.getRank() === this.bestRank) return [card];
-        }
-        return [];
+        return [this.cards[0]];
     }
 
     compareEqualTypeHand(hand) {
@@ -23,12 +24,8 @@ class HighCard extends PokerHandRank {
         else return super.compareEqualTypeHand(hand);
     }
 
-    getName() {
-        return "High Card";
-    }
-
     getDetailedName() {
-        return "High Card (" + this.bestRank + ")";
+        return `${this.getName()} (${this.bestRank})`;
     }
 }
 

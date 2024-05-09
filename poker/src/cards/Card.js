@@ -2,7 +2,7 @@ import Rank from "./Rank";
 import Suit from "./Suit";
 
 class Card {
-    constructor(rank, suit, shown = true) {
+    constructor(rank, suit, faceUp = true) {
         if (!(rank instanceof Rank)) {
             throw new Error("Invalid card rank");
         }
@@ -12,7 +12,7 @@ class Card {
 
         this.rank = rank;
         this.suit = suit;
-        this.shown = shown;
+        this.faceUp = faceUp;
     }
 
     getRank() {
@@ -23,8 +23,8 @@ class Card {
         return this.suit;
     }
 
-    isShown() {
-        return this.shown;
+    isFaceUp() {
+        return this.faceUp;
     }
 
     setSuit(suit) {
@@ -36,7 +36,7 @@ class Card {
     }
 
     setShown(shown) {
-        this.shown = shown;
+        this.faceUp = shown;
     }
 
     equals(other) {

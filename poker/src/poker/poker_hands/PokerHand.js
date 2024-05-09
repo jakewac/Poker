@@ -1,6 +1,7 @@
-class PokerHandRank {
-    constructor(value) {
+class PokerHand {
+    constructor(value, name = "PokerHand") {
         this.handTypeValue = value;
+        this.name = name;
 
         this.cards = [];
         this.uniqueRanks = [];
@@ -9,6 +10,10 @@ class PokerHandRank {
 
     getHandTypeValue() {
         return this.handTypeValue;
+    }
+
+    getName() {
+        return this.name;
     }
 
     getCards() {
@@ -32,8 +37,7 @@ class PokerHandRank {
     compareHand(hand) {
         if (this.handTypeValue > hand.getHandTypeValue()) return 1;
         else if (this.handTypeValue < hand.getHandTypeValue()) return -1;
-
-        return this.compareEqualTypeHand(hand);
+        else return this.compareEqualTypeHand(hand);
     }
 
     compareEqualTypeHand(hand) {
@@ -77,17 +81,11 @@ class PokerHandRank {
         let rankedCards = this.getHandCards();
         let availableCards = this.getKickers();
 
-        while (rankedCards.length < 5) {
+        while (rankedCards.length < 5 && availableCards.length) {
             rankedCards.push(availableCards.shift());
         }
 
         return rankedCards;
-    }
-
-    getName() {
-        throw new Error(
-            "Method 'getName() : string' must be implemented in concrete class"
-        );
     }
 
     getDetailedName() {
@@ -101,4 +99,4 @@ class PokerHandRank {
     }
 }
 
-export default PokerHandRank;
+export default PokerHand;

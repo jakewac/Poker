@@ -1,6 +1,12 @@
-import PokerHandRank from "./PokerHandRank";
+import PokerHand from "./PokerHand";
 
-class Flush extends PokerHandRank {
+class SuitMatch extends PokerHand {
+    constructor(value, count, name = "SuitMatch") {
+        super(value, name);
+
+        this.count = count;
+    }
+
     makesHand(hand) {
         super.makesHand(hand);
 
@@ -11,7 +17,7 @@ class Flush extends PokerHandRank {
                 if (c.getSuit() === suit) count++;
             });
 
-            if (count > 4) {
+            if (count >= this.count) {
                 this.suit = suit;
                 return true;
             }
@@ -21,7 +27,9 @@ class Flush extends PokerHandRank {
     }
 
     getHandCards() {
-        return this.cards.filter((c) => c.getSuit() === this.suit).slice(0, 5);
+        return this.cards
+            .filter((c) => c.getSuit() === this.suit)
+            .slice(0, this.count);
     }
 
     compareEqualTypeHand(hand) {
@@ -50,19 +58,11 @@ class Flush extends PokerHandRank {
         return super.compareEqualTypeHand(hand);
     }
 
-    getName() {
-        return "Flush";
-    }
-
     getDetailedName() {
-        return (
-            "Flush (" +
-            this.suit +
-            ", " +
-            this.getHandCards()[0].getRank() +
-            ")"
-        );
+        return `${this.getName()} (${
+            this.suit
+        }, ${this.getHandCards()[0].getRank()})`;
     }
 }
 
-export default Flush;
+export default SuitMatch;

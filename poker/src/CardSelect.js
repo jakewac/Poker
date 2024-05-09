@@ -1,7 +1,7 @@
 import React from "react";
-import Card from "./Card";
-import Rank from "./Rank";
-import Suit from "./Suit";
+import Card from "./cards/Card";
+import Rank from "./cards/Rank";
+import Suit from "./cards/Suit";
 
 class CardSelect extends React.Component {
     constructor(props) {

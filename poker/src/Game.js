@@ -1,5 +1,5 @@
-import Deck from "./Deck";
-import Hand from "./Hand";
+import Deck from "./cards/Deck";
+import Hand from "./cards/Hand";
 
 class Game {
     constructor(numPlayers) {
