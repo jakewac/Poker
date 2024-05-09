@@ -13,7 +13,7 @@ class Player extends React.Component {
     }
 
     getCardRender(card, id) {
-        const cardName = card.faceUp
+        const cardName = card.isFaceUp()
             ? card.getRank().toString() + "_of_" + card.getSuit().toString()
             : "back";
 
