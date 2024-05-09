@@ -1,9 +1,9 @@
 import "./App.css";
 
 import Board from "./Board";
-import Game from "./Game";
+import PokerGame from "./poker/PokerGame";
 
-const game = new Game(4);
+const game = new PokerGame(4);
 
 function App() {
     return (

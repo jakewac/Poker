@@ -1,7 +1,7 @@
-import Deck from "./cards/Deck";
-import Hand from "./cards/Hand";
+import Deck from "../cards/Deck";
+import Hand from "../cards/Hand";
 
-class Game {
+class PokerGame {
     constructor(numPlayers) {
         this.deck = new Deck();
         this.board = new Hand();
@@ -56,4 +56,4 @@ class Game {
     }
 }
 
-export default Game;
+export default PokerGame;
