@@ -1,15 +1,15 @@
 .hand {
     display: grid;
-    grid-template-columns: repeat(5, max-content);
-    gap: 10px;
+    grid-template-columns: repeat(5, auto);
+    gap: 1%;
     margin: 10px;
     justify-content: center;
 }
 
 .handCondensed {
     display: grid;
-    grid-template-columns: repeat(5, 35px);
-    gap: 10px;
+    grid-template-columns: repeat(4, auto);
+    gap: 1%;
     margin: 10px;
     justify-content: center;
 }
@@ -22,5 +22,10 @@
 
 .handStatusLabel {
     display: flex;
-    margin: 10px;
+    justify-content: center;
+    margin: 5px;
+}
+
+.cardRender {
+    max-width: 100%;
 }

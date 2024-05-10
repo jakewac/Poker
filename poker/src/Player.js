@@ -19,7 +19,7 @@ class Player extends React.Component {
 
         const cardImagePath = "./deck/" + cardName + ".svg";
 
-        return <img key={id} src={cardImagePath} alt={cardName}></img>;
+        return <img className="cardRender" key={id} src={cardImagePath} alt={cardName}></img>;
     }
 
     render() {
