@@ -129,7 +129,7 @@ class Board extends React.Component {
 
         return (
             <>
-                <div className="hand">{cardRenders}</div>
+                <div className="hand" style={{gridTemplateColumns: `repeat(${this.state.board.getCards().length}, auto)`}}>{cardRenders}</div>
                 <br />
                 <CardSelect
                     cards={this.game.getDeck().getCards()}
@@ -148,7 +148,7 @@ class Board extends React.Component {
             cardRenders.push(this.getCardRender(card, id));
             id += 1;
         }
-        return <div className="hand">{cardRenders}</div>;
+        return <div className="hand" style={{gridTemplateColumns: `repeat(13, auto)`}}>{cardRenders}</div>;
     }
 
     render() {

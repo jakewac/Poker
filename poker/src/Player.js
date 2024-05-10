@@ -32,7 +32,7 @@ class Player extends React.Component {
 
         return (
             <>
-                <div className="handCondensed">{cardsRender}</div>
+                <div className="hand" style={{gridTemplateColumns: `repeat(${this.state.cards.length}, auto)`}}>{cardsRender}</div>
                 <div className="handStatusLabel">{this.state.status}</div>
             </>
         );
