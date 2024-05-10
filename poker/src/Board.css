@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(5, auto);
     gap: 1%;
-    margin: 10px;
+    margin: 1%;
     justify-content: center;
 }
 
@@ -10,7 +10,7 @@
     display: grid;
     grid-template-columns: repeat(4, auto);
     gap: 1%;
-    margin: 10px;
+    margin: 1%;
     justify-content: center;
 }
 
@@ -23,7 +23,7 @@
 .handStatusLabel {
     display: flex;
     justify-content: center;
-    margin: 5px;
+    margin: 1%;
 }
 
 .cardRender {
