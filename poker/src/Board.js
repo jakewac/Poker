@@ -67,8 +67,10 @@ class Board extends React.Component {
     selectCard(card, hand) {
         if (hand.isInHand(card)) {
             hand.removeCard(card);
-        } else {
+            this.game.getDeck().returnCard(card);
+        } else if (this.game.getDeck().isCardInDeck(card)) {
             hand.addCard(card);
+            this.game.getDeck().dealCard(card);
         }
 
         this.setState({
