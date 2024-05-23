@@ -22,9 +22,10 @@ class Deck {
         return this.dealt;
     }
 
-    deal() {
+    deal(faceUp=true) {
         if (this.cards.length > 0) {
             let card = this.cards.shift(0);
+            card.setFaceUp(faceUp);
             this.dealt.push(card);
             return card;
         }
@@ -83,7 +84,9 @@ class Deck {
 
     reset() {
         while (this.dealt.length > 0) {
-            this.cards.push(this.dealt.pop());
+            let card = this.dealt.pop();
+            card.setFaceUp(true);
+            this.cards.push(card);
         }
         this.shuffle();
     }
