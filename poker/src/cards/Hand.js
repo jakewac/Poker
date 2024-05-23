@@ -30,6 +30,18 @@ class Hand {
         }
     }
 
+    revealAllCards() {
+        this.cards.forEach((c) => {
+            c.setFaceUp(true);
+        });
+    }
+
+    hideAllCards() {
+        this.cards.forEach((c) => {
+            c.setFaceUp(false);
+        });
+    }
+
     getCards() {
         return this.cards;
     }
