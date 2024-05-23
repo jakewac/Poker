@@ -31,6 +31,8 @@ class Board extends React.Component {
             deck: this.game.getDeck(),
             status: "",
         });
+
+        this.checkHands();
     }
 
     dealCard() {
@@ -43,6 +45,8 @@ class Board extends React.Component {
             board: this.game.getBoard(),
             deck: this.game.getDeck(),
         });
+
+        this.checkHands();
     }
 
     checkHands() {
@@ -99,7 +103,6 @@ class Board extends React.Component {
                 <div key={id}>
                     <Player cards={cards} status={status}></Player>
                     <CardSelect
-                        cards={this.game.getDeck().getCards()}
                         onSelectCard={(card) => this.selectCard(card, hand)}
                     ></CardSelect>
                 </div>
@@ -134,7 +137,6 @@ class Board extends React.Component {
                 <div className="hand" style={{gridTemplateColumns: `repeat(${this.state.board.getCards().length}, auto)`}}>{cardRenders}</div>
                 <br />
                 <CardSelect
-                    cards={this.game.getDeck().getCards()}
                     onSelectCard={(card) =>
                         this.selectCard(card, this.game.getBoard())
                     }
@@ -160,8 +162,6 @@ class Board extends React.Component {
                     <button onClick={() => this.newHand()}>New Hand</button>
                     <br />
                     <button onClick={() => this.dealCard()}>Deal</button>
-
-                    <button onClick={() => this.checkHands()}>Check</button>
                 </div>
                 <div className="handList">{this.state.playerHands}</div>
                 <br />
