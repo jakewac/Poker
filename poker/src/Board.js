@@ -26,10 +26,8 @@ class Board extends React.Component {
         this.game.dealCards();
 
         this.setState({
-            playerHands: this.getPlayerHands(),
             board: this.game.getBoard(),
             deck: this.game.getDeck(),
-            status: "",
         });
 
         this.checkHands();
@@ -41,7 +39,6 @@ class Board extends React.Component {
         }
 
         this.setState({
-            playerHands: this.getPlayerHands(),
             board: this.game.getBoard(),
             deck: this.game.getDeck(),
         });
@@ -77,9 +74,7 @@ class Board extends React.Component {
             this.game.getDeck().dealCard(card);
         }
 
-        this.setState({
-            playerHands: this.getPlayerHands(),
-        });
+        this.checkHands();
     }
 
     getPlayerHands() {
