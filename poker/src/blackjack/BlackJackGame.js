@@ -76,6 +76,12 @@ class BlackJackGame {
 
     playerHit(playerHand) {
         playerHand.addCard(this.deck.deal());
+
+        if (this.calculateHandValue(playerHand) > 21) {
+            return true;
+        }
+
+        return false;
     }
 
     reset() {

@@ -2,7 +2,6 @@ import React from "react";
 
 import "../Board.css";
 
-import CardSelect from "../CardSelect";
 import Player from "../Player";
 
 class BlackJackBoard extends React.Component {
@@ -12,7 +11,7 @@ class BlackJackBoard extends React.Component {
         this.game = this.props.game;
 
         this.state = {
-            playerHands: this.getPlayerHands(),
+            playerHands: [],
             dealerHand: this.game.getDealerHand(),
             deck: this.game.getDeck(),
             status: "",
@@ -24,33 +23,40 @@ class BlackJackBoard extends React.Component {
         this.game.dealCards();
 
         this.setState({
-            playerHands: this.getPlayerHands(),
+            playerHands: this.getPlayerHands(true),
             dealerHand: this.game.getDealerHand(),
             deck: this.game.getDeck(),
             status: "",
         });
     }
 
-    dealCard() {
+    stand() {
         this.game.dealerAction();
 
         this.setState({
+            playerHands: this.getPlayerHands(false),
             dealerHand: this.game.getDealerHand(),
             deck: this.game.getDeck(),
-            status: this.game.calculateHandValue(this.game.getDealerHand())
+            status: this.game.calculateHandValue(this.game.getDealerHand()),
         });
     }
 
     hit(hand) {
-        this.game.playerHit(hand);
-
-        this.setState({
-            playerHands: this.getPlayerHands(),
-            deck: this.game.getDeck()
-        });
+        if (this.game.playerHit(hand)) {
+            this.setState({
+                playerHands: this.getPlayerHands(false),
+                deck: this.game.getDeck(),
+                status: "Bust!",
+            });
+        } else {
+            this.setState({
+                playerHands: this.getPlayerHands(true),
+                deck: this.game.getDeck(),
+            });
+        }
     }
 
-    getPlayerHands() {
+    getPlayerHands(actionable) {
         let playerHands = [];
 
         let id = Math.random();
@@ -60,11 +66,10 @@ class BlackJackBoard extends React.Component {
             playerHands.push(
                 <div key={id}>
                     <Player cards={cards} status={this.game.calculateHandValue(hand)}></Player>
-                    <button onClick={() => this.hit(hand)}>Hit</button>
-                    <button onClick={() => this.dealCard()}>Stand</button>
+                    <button onClick={() => this.hit(hand)} disabled={!actionable}>Hit</button>
+                    <button onClick={() => this.stand()} disabled={!actionable}>Stand</button>
                 </div>
             );
-
             id += 1;
         }
 
